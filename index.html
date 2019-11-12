@@ -1,52 +1,49 @@
 <!DOCTYPE html>
-<html lang = "en">
-    <head>
-        <title>Cadastrar Usuario</title>
-        <meta charset = utf-8>
-        <link rel = "stylesheet" href = "css/index.css">
-    </head>
+<html lang="en">
 
-    <body class="centro">
+<head>
+    <title>Cadastrar Usuario</title>
+    <meta charset=u tf-8>
+    <link rel="stylesheet" href="css/index.css">
+</head>
 
-        <header>
-            <!--h1 class = "logo">AJuDE</h1-->
-            <ul>
-                    <li><a href="">Home</a></li>
-                    <li><a href="">Login</a></li>
-                    <li><a href="">Sobre</a></li>
-                    <li id="divBusca">
-                        <input type="text" id="txtBusca" placeholder="Buscar"/>
-                    </li>
-            </ul>
-        </header>
+<body class="centro">
 
-        <!-- div para pegar as informações do usuario-->
-        <main>
-            <div class = "Cria Nome">
-                Nome: <input type = "text">
-            </div>
+    <header>
+        <!--h1 class = "logo">AJuDE</h1-->
+        <ul>
+            <li><a href="">Home</a></li>
+            <li><a href="">Login</a></li>
+            <li><a href="">Sobre</a></li>
+            <li id="busca">
+                <input type="text" id="txtBusca" placeholder="Buscar" />
+            </li>
+        </ul>
+    </header>
 
-            <div class = "Cria UltimoNome">
-                Ultimo Nome: <input type = "text">
-            </div>
+    <!-- div para pegar as informações do usuario-->
+    <main>
+        <p id="text">Nome</p>
+        <input class="input" type="text" placeholder="Seu nome">
 
-            <div class = "Cria Email">
-                Email: <input type = "text">
-            </div>
+        <p id="text">Sobrenome</p>
+        <input class="input" type="text" placeholder="Seu sobrenome">
 
-            <div class = "Cria CartaoDeCredito">
-                Cartao De Credito: <input type = "text">
-            </div>
+        <p id="text">Email</p>
+        <input class="input" type="email" placeholder="Seu email">
 
-            <div class = "Cria Senha">
-                Senha: <input type = "text">
-            </div>
+        <p id="text">Cartão de Crédito</p>
+        <input class="input" type="number" placeholder="Seu cartão de crédito">
 
-            <button class = "save">Salvar Usuario</button>
+        <p id="text">Senha</p>
+        <input class="input" type="password" placeholder="Sua senha">
 
-            <script type = "module" src = "js/index.js"></script>
-        </main>
+        <button class="save">Salvar Usuário</button>
 
-        <footer></footer>
-    </body>
+        <script type="module" src="js/index.js"></script>
+    </main>
+
+    <footer></footer>
+</body>
+
 </html>
