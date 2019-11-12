@@ -1,13 +1,27 @@
 <!DOCTYPE html>
-<htlm lang = "en">
+<html lang = "en">
     <head>
         <title>Cadastrar Usuario</title>
         <meta charset = utf-8>
+        <link rel = "stylesheet" href = "css/index.css">
     </head>
 
-    <body class = "centro">
+    <body class="centro">
+
+        <header>
+            <!--h1 class = "logo">AJuDE</h1-->
+            <ul>
+                    <li><a href="">Home</a></li>
+                    <li><a href="">Login</a></li>
+                    <li><a href="">Sobre</a></li>
+                    <li id="divBusca">
+                        <input type="text" id="txtBusca" placeholder="Buscar"/>
+                    </li>
+            </ul>
+        </header>
+
         <!-- div para pegar as informações do usuario-->
-        <div>
+        <main>
             <div class = "Cria Nome">
                 Nome: <input type = "text">
             </div>
@@ -31,6 +45,8 @@
             <button class = "save">Salvar Usuario</button>
 
             <script type = "module" src = "js/index.js"></script>
-        </div>
+        </main>
+
+        <footer></footer>
     </body>
-</htlm>
+</html>

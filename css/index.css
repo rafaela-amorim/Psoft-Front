@@ -1,0 +1,85 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100vh;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr 40px;
+    grid-template-areas: "cab"
+                         "corpo"
+                         "pe";
+    background-color: #F1F0CF;
+    height: 100vh;
+}
+
+header {
+    grid-area: cab;
+    border: 1px green solid;
+
+}
+
+main {
+    grid-area: corpo;
+    padding: 16px;
+    border: 1px red solid;
+}
+
+footer {
+    grid-area: pe;
+    border: 1px blue solid;
+
+}
+
+.logo {
+    background-color: #DEE2D9
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    width: 100%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+li {
+    float: left;
+}
+  
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+  
+li a:hover {
+    background-color: #111;
+}
+
+#divBusca {
+    background-color: #2F4F4F;
+    border: solid 1px;
+    border-radius: 15px;
+    width: 300px;
+    float: right;
+}
+   
+#txtBusca {
+    float: left;
+    background-color: transparent;
+    padding-left: 5px;
+    font-size: 18px;
+    border: none;
+    height: 32px;
+    width: 260px;
+}

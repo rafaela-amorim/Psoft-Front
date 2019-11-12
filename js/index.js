@@ -1,4 +1,3 @@
-
 let API = "http://localhost:8080/v1/api"
 
 function carregando(){
@@ -15,7 +14,6 @@ function save(){
     let email = document.querySelector(".Email input").value
     let cartao = document.querySelector(".CartaoDeCredito input").value
     let senha = document.querySelector(".Senha input").value
-    console.log(nome)
     let json = `{"nome": "${nome}","ultimoNome": "${ultimoNome}","email":"${email}","cartaoDeCredito":"${cartao}","senha":"${senha}"}`;
     
     fetch(API + "/usuarios" , {
