@@ -9,12 +9,12 @@ html {
 
 body {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto 1fr 40px;
-    grid-template-areas: "cab"
-                         "corpo"
-                         "pe";
-    background-color: #F1F0CF;
+    grid-template-areas: "cab cab cab"
+                         ". corpo ."
+                         "pe pe pe";
+    background-color: white;
     height: 100vh;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
@@ -25,25 +25,32 @@ header {
 
 }
 
+
 main {
     grid-area: corpo;
     padding: 16px;
     border: 1px red solid;
     display: grid;
-    grid-template-areas: "text input";
-    grid-template-columns: 150px 200px;
-    grid-template-rows: 40px 40px 40px 40px 40px 40px; 
+    grid-template-columns: auto auto;
+    /* grid-template-rows: 40px 40px 40px 40px 40px 40px 1fr; */
+    grid-template-rows: auto;
+    height: min-content;
+    grid-template-areas:    "text input"; 
     align-items: center;
     font-size: 90%;
+    grid-gap: 8px;
+    align-self: center;
 }
 
 .input {
-    align-self: center;
+    align-self: end;
     justify-self: center;
     border-radius: 5px;
     border: 1px solid #222;
     padding: 8px;
-
+    width: 100%;
+    box-sizing: border-box;
+    height: 100%;
 }
 
 .text {

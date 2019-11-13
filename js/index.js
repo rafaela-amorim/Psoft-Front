@@ -1,19 +1,12 @@
 let API = "http://localhost:8080/v1/api"
 
-function carregando(){
-    let $body = document.querySelector(".centro");
-    let $div = document.createElement("div")
-    $body.appendChild($div);
-    $div.innerHTML = "Adicionando usuario..."
-    setTimeout(()=> {$body.removeChild($div)},3000);
-}
 
 function save(){
-    let nome = document.querySelector(".Nome input").value;
-    let ultimoNome = document.querySelector(".UltimoNome input").value
-    let email = document.querySelector(".Email input").value
-    let cartao = document.querySelector(".CartaoDeCredito input").value
-    let senha = document.querySelector(".Senha input").value
+    let nome = document.querySelector(".Nome").value;
+    let ultimoNome = document.querySelector(".UltimoNome").value
+    let email = document.querySelector(".Email").value
+    let cartao = document.querySelector(".CartaoDeCredito").value
+    let senha = document.querySelector(".Senha").value
     let json = `{"nome": "${nome}","ultimoNome": "${ultimoNome}","email":"${email}","cartaoDeCredito":"${cartao}","senha":"${senha}"}`;
     
     fetch(API + "/usuarios" , {
@@ -23,7 +16,7 @@ function save(){
     }).then(r => r.json())
     .then(j => {
         console.log(j)
-        carregando()
+        alert("usuario cadastrado com sucesso!")
     })
 }
 
