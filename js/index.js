@@ -34,6 +34,15 @@ function viewCadastro(){
    
 }
 
+function login() {
+    let $main = document.querySelector("main");
+    let $templateView = document.querySelector(".login");
+
+    $main.innerHTML = $templateView.innerHTML;
+    
+    let $button = document.querySelector(".save");
+    // $button.addEventListener("click", save);
+}
 
 (function init(){
     console.log("inicionou")
@@ -43,10 +52,15 @@ function viewCadastro(){
     let $cadastro = document.querySelector(".linkCadastro")
     $cadastro.addEventListener('click',viewCadastro)
 
+    let $login = document.querySelector(".linkLogin");
+    $login.addEventListener('click', login);
+
     
 
     if(hash === "#Cadastro"){
         viewCadastro();
+    } else if (hash === "#Login") {
+        login();
     }
     else{
         $main.innerHTML = '';
