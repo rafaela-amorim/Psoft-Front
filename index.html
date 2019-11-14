@@ -5,6 +5,7 @@
     <title>Cadastrar Usuario</title>
     <meta charset=utf-8>
     <link rel="stylesheet" href="css/index.css">
+    <script type="module" src="js/index.js"></script>
 </head>
 
 <body class="centro">
@@ -15,6 +16,7 @@
             <li><a href="">Home</a></li>
             <li><a href="">Login</a></li>
             <li><a href="">Sobre</a></li>
+            <li><a href = "#Cadastro" class = "linkCadastro">Cadastro</a></li>
             <li id="busca">
                 <input type="text" id="txtBusca" placeholder="Buscar" />
             </li>
@@ -23,6 +25,10 @@
 
     <!-- div para pegar as informações do usuario-->
     <main>
+        
+    </main>
+
+    <template class = "cadastro">
         <p class="text">Nome</p>
         <input class="input Nome " type="text" placeholder="Seu nome">
 
@@ -39,9 +45,7 @@
         <input class="input Senha" type="password" placeholder="Sua senha">
 
         <button class="save">Salvar Usuário</button>
-
-        <script type="module" src="js/index.js"></script>
-    </main>
+    </template>
 
     <footer></footer>
 </body>

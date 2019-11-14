@@ -20,10 +20,36 @@ function save(){
     })
 }
 
+function viewCadastro(){
+    let $main = document.querySelector("main");
+    let $templateView1 = document.querySelector(".cadastro")
+
+    $main.innerHTML = $templateView1.innerHTML;
+
+
+    let $button = document.querySelector(".save")
+    $button.addEventListener("click",save)
+
+    console.log("veio aqui?")
+   
+}
+
 
 (function init(){
     console.log("inicionou")
-    let $button = document.querySelector(".save")
-    $button.addEventListener("click",save)
+    
+    let hash = location.hash;
+
+    let $cadastro = document.querySelector(".linkCadastro")
+    $cadastro.addEventListener('click',viewCadastro)
+
+    
+
+    if(hash === "#Cadastro"){
+        viewCadastro();
+    }
+    else{
+        $main.innerHTML = '';
+    }
     
 }())
