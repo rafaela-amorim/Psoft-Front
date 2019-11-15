@@ -135,3 +135,19 @@ li a:hover {
     height: 32px;
     width: 260px;
 }
+
+/* O perfil do usuario vem aqui */
+
+.gridPerfilUsuario{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "perfil campanhas";
+}
+
+.perfilUsuario{
+    grid-area: perfil;
+}
+
+.campanhasUsuario{
+    grid-area: campanhas;
+}
