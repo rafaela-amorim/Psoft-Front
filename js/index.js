@@ -98,7 +98,8 @@ function perfilUsuario(){
 
                 let $div = document.createElement("div")
 
-                let $nome = document.createElement("p");
+                let $nome = document.createElement("a");
+                $nome.href = "#campanha/"+lista[i].url
                 let $descricao = document.createElement("p");
                 let $dataLimite = document.createElement("p")
                 let $status = document.createElement("p");
@@ -109,6 +110,58 @@ function perfilUsuario(){
 
 
                 $nome.innerText = "Nome: " + lista[i].nome
+                $descricao.innerText = "Descricao: " + lista[i].descricao;
+                $dataLimite.innerText = "Data Limite: " + lista[i].dataLimite.substring(0,10);
+                $status.innerText = "Status: " + lista[i].status;
+                $url.innerText = "URL: "+ lista[i].url
+                $meta.innerText = "Meta: " + lista[i].meta;
+                $doacoes.innerText = "Doacoes: " + lista[i].doacoes;
+
+                $div.appendChild($nome)
+                $div.appendChild($descricao)
+                $div.appendChild($dataLimite);
+                $div.appendChild($status)
+                $div.appendChild($url)
+                $div.appendChild($meta)
+                $div.appendChild($doacoes)
+                $div.appendChild(document.createElement("hr"))
+                $campanhaDono.appendChild($div);
+            }
+        })
+
+        fetch(API+"/auth/campanha/doacao",{
+            'method':"GET",
+            "headers":{
+                "Authorization":"Bearer "+localStorage.getItem("token")
+            } 
+        }).then(r => {
+            if(r.status != 200){
+                login();
+                localStorage.removeItem("token")
+                return undefined;
+            }
+            return r.json()})
+        .then(j =>{
+            if(j === undefined) return;
+            let lista = j;
+            console.log(lista)
+            for(let i = 0; i < j.length; i++){
+                let $campanhaDono = document.querySelector(".campanhasDoadas"); 
+
+                let $div = document.createElement("div")
+
+                let $nome = document.createElement("a");
+                let $descricao = document.createElement("p");
+                let $dataLimite = document.createElement("p")
+                let $status = document.createElement("p");
+                let $url = document.createElement("p");
+                let $meta = document.createElement("p");
+                let $doacoes = document.createElement("p");
+
+
+
+                $nome.innerText = "Nome: " + lista[i].nome
+                $nome.href = "#campanha/"+lista[i].url
                 $descricao.innerText = "Descricao: " + lista[i].descricao;
                 $dataLimite.innerText = "Data Limite: " + lista[i].dataLimite.substring(0,10);
                 $status.innerText = "Status: " + lista[i].status;
