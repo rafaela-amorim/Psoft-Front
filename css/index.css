@@ -83,11 +83,6 @@ main {
     margin-bottom: 5px;
 }
 
-a {
-    align-self: center;
-    justify-content: center;
-}
-
 footer {
     grid-area: pe;
     border: 1px blue solid;

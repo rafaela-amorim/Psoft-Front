@@ -20,12 +20,28 @@ function save(){
     })
 }
 
+function authenticate() {
+    let email = document.querySelector(".Email").value;
+    let senha = document.querySelector(".Senha").value;
+
+    let json = `{"email": "${email}", "senha": "${senha}"}`;
+
+    fetch(API + "/login/usuarios", {
+        'method': 'POST',
+        'body': json,
+        'headers': {'Content-Type':'application/json'} 
+    }).then(r => r.json())
+    .then(j => {
+        localStorage.setItem("token", j.token);
+        alert("Usuário logado com sucesso!");
+    });
+}
+
 function viewCadastro(){
     let $main = document.querySelector("main");
     let $templateView1 = document.querySelector(".cadastro")
 
     $main.innerHTML = $templateView1.innerHTML;
-
 
     let $button = document.querySelector(".save")
     $button.addEventListener("click",save)
@@ -41,13 +57,14 @@ function login() {
     $main.innerHTML = $templateView.innerHTML;
     
     let $button = document.querySelector(".save");
-    // $button.addEventListener("click", save);
+    $button.addEventListener("click", authenticate);
 }
 
 (function init(){
     console.log("inicionou")
     
     let hash = location.hash;
+    let $main = document.querySelector("main");
 
     let $cadastro = document.querySelector(".linkCadastro")
     $cadastro.addEventListener('click',viewCadastro)
