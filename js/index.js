@@ -30,11 +30,15 @@ function authenticate() {
         'method': 'POST',
         'body': json,
         'headers': {'Content-Type':'application/json'} 
-    }).then(r => r.json())
+    }).then(r => {
+        if(r.status === 200)
+            perfilUsuario();
+        return r.json();
+    })
     .then(j => {
         localStorage.setItem("token", j.token);
         localStorage.setItem("email",email);
-        alert("Usuário logado com sucesso!");
+
         console.log(j.token)
         
     });
@@ -54,6 +58,7 @@ function viewCadastro(){
 }
 
 function login() {
+    location.hash = "#Login";
     let $main = document.querySelector("main");
     let $templateView = document.querySelector(".login");
 
@@ -65,12 +70,20 @@ function login() {
 
 
 function perfilUsuario(){
+    location.hash = "#Usuario"
     if(localStorage.getItem("token") === null){
         login();
     }else{
         let $main = document.querySelector("main");
         let $perfil = document.querySelector(".perfil")
         $main.innerHTML = $perfil.innerHTML;
+
+        let $sair = document.querySelector(".sair")
+        $sair.addEventListener('click',_ => {
+
+            login();
+            localStorage.removeItem("token");
+        })
 
         fetch(API + "/usuarios/" + localStorage.getItem("email"),{
             'method': "GET",
