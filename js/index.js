@@ -32,7 +32,7 @@ function authenticate() {
         'headers': {'Content-Type':'application/json'} 
     }).then(r => {
         if(r.status === 200)
-            perfilUsuario();
+            setTimeout(perfilUsuario,0);
         return r.json();
     })
     .then(j => {
@@ -65,14 +65,90 @@ function login() {
     $main.innerHTML = $templateView.innerHTML;
     
     let $button = document.querySelector(".save");
-    $button.addEventListener("click", authenticate);
+    $button.addEventListener("click", _ => {setTimeout(authenticate,0)});
+}
+
+function campanha(url){
+    let $main = document.querySelector("main")
+    $main.innerHTML = document.querySelector(".campanha").innerHTML;
+
+    fetch(API+"/campanha/"+url,{
+        "method":"GET"
+    }).then(r => r.json())
+    .then(j => {
+        document.querySelector(".campanhaNome").innerText = "Nome: " + j.nome;
+        document.querySelector(".campanhaDescricao").innerText = "Descricao: " + j.descricao;
+        document.querySelector(".campanhaDataLimite").innerText = "Data Limite: " + j.dataLimite.substring(0,10);
+        document.querySelector(".campanhaStatus").innerText = "Status: "+j.status;
+        document.querySelector(".campanhaUrl").innerText = "ULR: "+j.url;
+        document.querySelector(".campanhaMeta").innerText = "Meta: "+j.meta;
+        document.querySelector(".campanhaDoacoes").innerText = "Doacoes: "+j.doacoes;
+
+        fetch(API+"/comentario/campanha/"+url,{
+            "method":"GET"
+        }).then(r => r.json())
+        .then(k => {
+            console.log(k)
+            let $campanhaComentario = document.querySelector(".campanhaComentarios");
+            for(let i = 0; i < k.length; i++){
+                let $div = document.createElement("div")
+                let $comentario = document.createElement("p")
+                let $nome = document.createElement("h4");
+
+
+                $nome.innerText = k[i].commentOwner + " Disse:"
+                $comentario.innerText = k[i].comentario;
+
+
+                $div.appendChild($nome)
+                $div.appendChild($comentario)
+                $div.appendChild(document.createElement("hr"))
+                $campanhaComentario.appendChild($div)
+            }
+            if(localStorage.getItem("token") != null){
+                let $input = document.createElement("input");
+                let $button = document.createElement("button");
+                $button.innerText = "Salvar Comentario";
+
+
+
+                $campanhaComentario.appendChild($input);
+                $campanhaComentario.appendChild($button);
+
+                
+
+                $button.addEventListener('click',_ => {
+                    let comentario = $input.value;
+
+                    let json = `{"comentario":"${comentario}","idCampanha":${j.id}}`;
+                    console.log(json)
+                    fetch(API+"/auth/comentario/",{
+                        "method":"POST",
+                        'body': json,
+                        'headers':{"Authorization":"Bearer "+localStorage.getItem("token"),"Content-type":"application/json"}
+                    }).then(r => {
+                        console.log(r)
+                        if(r.status != 200){
+                            setTimeout(login,0);
+                        }
+                        return r.json()
+                    })
+                    .then(j => {
+                        console.log(j);
+                        setTimeout(_ => {campanha(url)},0);
+                    })
+                })
+            }
+        })
+        
+    })
 }
 
 
 function perfilUsuario(){
     location.hash = "#Usuario"
     if(localStorage.getItem("token") === null){
-        login();
+        setTimeout(login,0);
     }else{
         let $main = document.querySelector("main");
         let $perfil = document.querySelector(".perfil")
@@ -81,7 +157,7 @@ function perfilUsuario(){
         let $sair = document.querySelector(".sair")
         $sair.addEventListener('click',_ => {
 
-            login();
+            setTimeout(login,0);
             localStorage.removeItem("token");
         })
 
@@ -123,6 +199,7 @@ function perfilUsuario(){
 
 
                 $nome.innerText = "Nome: " + lista[i].nome
+                $nome.addEventListener('click', _ => {campanha(lista[i].url)})
                 $descricao.innerText = "Descricao: " + lista[i].descricao;
                 $dataLimite.innerText = "Data Limite: " + lista[i].dataLimite.substring(0,10);
                 $status.innerText = "Status: " + lista[i].status;
@@ -149,7 +226,7 @@ function perfilUsuario(){
             } 
         }).then(r => {
             if(r.status != 200){
-                login();
+                setTimeout(login,0);
                 localStorage.removeItem("token")
                 return undefined;
             }
@@ -175,6 +252,7 @@ function perfilUsuario(){
 
                 $nome.innerText = "Nome: " + lista[i].nome
                 $nome.href = "#campanha/"+lista[i].url
+                $nome.addEventListener('click', _ => {campanha(lista[i].url)})
                 $descricao.innerText = "Descricao: " + lista[i].descricao;
                 $dataLimite.innerText = "Data Limite: " + lista[i].dataLimite.substring(0,10);
                 $status.innerText = "Status: " + lista[i].status;
@@ -198,6 +276,9 @@ function perfilUsuario(){
 
 }
 
+
+
+
 (function init(){
     console.log("inicionou")
     
@@ -216,11 +297,14 @@ function perfilUsuario(){
     
 
     if(hash === "#Cadastro"){
-        viewCadastro();
+        setTimeout(viewCadastro,0);
     } else if (hash === "#Login") {
-        login();
+        setTimeout(login(),0);
     }else if(hash === "#Usuario"){
-        perfilUsuario();
+        setTimeout(perfilUsuario,0);
+    }
+    else if(hash.substr(0,10) === "#campanha/"){
+        setTimeout(_ => {campanha(hash.substr(9))});
     }
     else{
         $main.innerHTML = '';

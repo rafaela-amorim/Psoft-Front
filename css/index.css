@@ -151,3 +151,20 @@ li a:hover {
 .campanhasUsuario{
     grid-area: campanhas;
 }
+
+
+.campanhaGrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "infos comentarios"
+}
+
+.infoCampanha{
+    grid-area: infos;
+}
+
+.campanhaComentario{
+    grid-area: comentarios;
+}
+
+
