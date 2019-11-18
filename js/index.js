@@ -1,6 +1,7 @@
 let API = "http://localhost:8080/v1/api"
 
 
+//função que cadastra um usuario
 function save(){
     let nome = document.querySelector(".Nome").value;
     let ultimoNome = document.querySelector(".UltimoNome").value
@@ -20,6 +21,7 @@ function save(){
     })
 }
 
+// função que autentica o login de um usuario
 function authenticate() {
     let email = document.querySelector(".Email").value;
     let senha = document.querySelector(".Senha").value;
@@ -44,6 +46,7 @@ function authenticate() {
     });
 }
 
+// função que mostra a view de cadastro
 function viewCadastro(){
     let $main = document.querySelector("main");
     let $templateView1 = document.querySelector(".cadastro")
@@ -57,6 +60,7 @@ function viewCadastro(){
    
 }
 
+// função que mostra a tela de login
 function login() {
     location.hash = "#Login";
     let $main = document.querySelector("main");
@@ -68,6 +72,8 @@ function login() {
     $button.addEventListener("click", _ => {setTimeout(authenticate,0)});
 }
 
+
+// função que mostra a view de campanha
 function campanha(url){
     let $main = document.querySelector("main")
     $main.innerHTML = document.querySelector(".campanha").innerHTML;
@@ -84,6 +90,32 @@ function campanha(url){
         document.querySelector(".campanhaMeta").innerText = "Meta: "+j.meta;
         document.querySelector(".campanhaDoacoes").innerText = "Doacoes: "+j.doacoes;
 
+        if(!(localStorage.getItem("token") === null)){
+            let $infoCampanha = document.querySelector(".infoCampanha");
+            let $input = document.createElement("input");
+            let $button = document.createElement("button");
+
+            $button.innerText = "Fazer doação"
+
+            $infoCampanha.appendChild($input)
+            $infoCampanha.appendChild($button)
+
+            $button.addEventListener('click', _ => {
+                let json = `{"emailDoador":"${localStorage.getItem("email")}","quantia":"${$input.value}","urlCampanha":"${j.url}"}`
+                console.log(json)
+                fetch(API+"/auth/doacao",{
+                    "method":"POST",
+                    'body':json,
+                    "headers":{"Authorization":"Bearer "+localStorage.getItem("token"),"Content-type":"application/json"}
+                }).then(r => r.json())
+                .then(j => {
+                    console.log(j);
+                    setTimeout(campanha(url),0);
+                })
+            })
+
+        }
+
         fetch(API+"/comentario/campanha/"+url,{
             "method":"GET"
         }).then(r => r.json())
@@ -93,14 +125,24 @@ function campanha(url){
             for(let i = 0; i < k.length; i++){
                 let $div = document.createElement("div")
                 let $comentario = document.createElement("p")
+                let $a = document.createElement('a')
                 let $nome = document.createElement("h4");
 
 
                 $nome.innerText = k[i].commentOwner + " Disse:"
                 $comentario.innerText = k[i].comentario;
+                $a.href = "#comentario/"+k[i].id;
 
+                $a.addEventListener('click', _ => {
+                    let $campanhaComen = document.querySelector(".campanhaComentarios")
+                    
+                    let $h2 = document.querySelector(".textoInicialComent");
+                    $h2.innerText = "Comentarios Respondidos";
 
-                $div.appendChild($nome)
+                })
+
+                $a.appendChild($nome)
+                $div.appendChild($a)
                 $div.appendChild($comentario)
                 $div.appendChild(document.createElement("hr"))
                 $campanhaComentario.appendChild($div)
@@ -144,7 +186,7 @@ function campanha(url){
     })
 }
 
-
+// metodo que mostra a view do usuario
 function perfilUsuario(){
     location.hash = "#Usuario"
     if(localStorage.getItem("token") === null){
