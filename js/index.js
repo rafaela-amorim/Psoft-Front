@@ -270,7 +270,6 @@ function saveCamp() {
     let data = document.querySelector(".dataCamp").value;
     let json = `{"nome": "${nome}", "descricao": "${descricao}", "meta": ${meta}, "dataLimite": "${data}"}`
 
-    console.log(json);
 
     fetch(API + "/auth/campanha" , {
         'method':'POST',
@@ -300,6 +299,41 @@ function cadastraCampanha() {
         let $cadastra = document.querySelector(".botaoCamp");
         $cadastra.addEventListener('click',_ => {setTimeout(saveCamp, 0);})
     }
+}
+
+function home() {
+    location.hash = "";
+
+    let $main = document.querySelector("main");
+    let $home = document.querySelector(".home");
+    $main.innerHTML = $home.innerHTML;
+    
+    fetch(API + "/campanha/sort/meta", {
+        'method': 'GET'
+    }).then(r => r.json())
+    .then(j => {
+        for (let i = 0; i < j.length; i++) {
+            let $pagInicial = document.querySelector(".pagInicial");
+            
+            let $div = document.createElement("div");
+            let $nome = document.createElement("a");
+            $nome.href = "#campanha/" + j[i].url;
+            let $meta = document.createElement("p");
+            let $likes = document.createElement("p");
+
+            $nome.innerText = "Nome: " + j[i].nome;
+            $nome.addEventListener('click', _ => {campanha(j[i].url)});
+            $meta.innerText = "Meta: " + j[i].meta;
+            $likes.innerText = "Qtd. de Likes: " + j[i].likes;
+
+            $div.appendChild($nome);
+            $div.appendChild($meta);
+            $div.appendChild($likes);
+            $div.appendChild(document.createElement("hr"));
+            $pagInicial.appendChild($div);
+        }
+    })
+
 }
 
 // metodo que mostra a view do usuario
@@ -450,11 +484,14 @@ function perfilUsuario(){
     let hash = location.hash;
     let $main = document.querySelector("main");
 
-    let $cadastro = document.querySelector(".linkCadastro")
-    $cadastro.addEventListener('click',viewCadastro)
+    let $home = document.querySelector(".home");
+    $home.addEventListener('click', home);
 
     let $login = document.querySelector(".linkLogin");
     $login.addEventListener('click', login);
+
+    let $cadastro = document.querySelector(".linkCadastro")
+    $cadastro.addEventListener('click',viewCadastro)
 
     let $perfil = document.querySelector(".perfilUsuario");
     $perfil.addEventListener('click',perfilUsuario)
@@ -464,15 +501,15 @@ function perfilUsuario(){
     if(hash === "#Cadastro"){
         setTimeout(viewCadastro,0);
     } else if (hash === "#Login") {
-        setTimeout(login,0);
-    }else if(hash === "#Usuario"){
-        setTimeout(perfilUsuario,0);
+        setTimeout(login, 0);
+    }else if(hash === "#Usuario") {
+        setTimeout(perfilUsuario, 0);
     }
-    else if(hash.substr(0,10) === "#campanha/"){
+    else if(hash.substr(0,10) === "#campanha/") {
         setTimeout(_ => {campanha(hash.substr(9))});
     }
-    else{
-        $main.innerHTML = '';
+    else {
+        setTimeout(home, 0);
     }
     
 }())
