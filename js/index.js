@@ -14,10 +14,16 @@ function save(){
         'method':'POST',
         'body': json,
         'headers' : {'Content-Type':'application/json'}
-    }).then(r => r.json())
+    }).then(r => {
+        if(r.status === 200){
+            console.log(r)
+            alert("usuario cadastrado com sucesso!")
+            setTimeout(login,0);
+        }
+        return r.json();
+    })
     .then(j => {
-        console.log(j)
-        alert("usuario cadastrado com sucesso!")
+        
     })
 }
 
@@ -72,6 +78,81 @@ function login() {
     $button.addEventListener("click", _ => {setTimeout(authenticate,0)});
 }
 
+// função que ve as respostas de um comentario
+function veRespostas(id, coment){
+    console.log("????????")
+    let $campanhaComentario = document.querySelector(".campanhaComentarios");
+    $campanhaComentario.innerHTML = '';
+
+    let $h2 = document.createElement("h2");
+    $h2.innerText = "Comentarios Respondidos: "+coment;
+
+    $campanhaComentario.appendChild($h2)
+    $campanhaComentario.appendChild(document.createElement("hr"))
+
+    fetch(API+"/comentario/respostas/"+id,{
+        "method":"GET"
+    }).then(r => r.json())
+    .then(k => {
+        console.log(k)
+        let $campanhaComentario = document.querySelector(".campanhaComentarios");
+        for(let i = 0; i < k.length; i++){
+            let $div = document.createElement("div")
+            let $comentario = document.createElement("p")
+            let $a = document.createElement('a')
+            let $nome = document.createElement("h4");
+
+
+            $nome.innerText = k[i].commentOwner + " Disse:"
+            $comentario.innerText = k[i].comentario;
+            $a.href = "#comentario/"+k[i].id;
+
+            // parte para ver as respostas de um comentario
+            $a.addEventListener('click', _ => {veRespostas(k[i].id,k[i].comentario)})
+
+            $a.appendChild($nome)
+            $div.appendChild($a)
+            $div.appendChild($comentario)
+            $div.appendChild(document.createElement("hr"))
+            $campanhaComentario.appendChild($div)
+        }
+        if(localStorage.getItem("token") != null){
+            let $input = document.createElement("input");
+            let $button = document.createElement("button");
+            $button.innerText = "Responder Comentario";
+
+
+
+            $campanhaComentario.appendChild($input);
+            $campanhaComentario.appendChild($button);
+
+            
+
+            $button.addEventListener('click',_ => {
+                let comentario = $input.value;
+
+                let json = `{"comentario":"${comentario}","idComentario":${id}}`;
+                console.log(json)
+                fetch(API+"/auth/comentario/",{
+                    "method":"POST",
+                    'body': json,
+                    'headers':{"Authorization":"Bearer "+localStorage.getItem("token"),"Content-type":"application/json"}
+                }).then(r => {
+                    console.log(r)
+                    if(r.status != 201){
+                        //setTimeout(login,0);
+                    }
+                    return r.json()
+                })
+                .then(j => {
+                    console.log(j);
+                    setTimeout(_ => {veRespostas(id,coment)},0);
+                })
+            })
+        }
+    })
+}
+
 
 // função que mostra a view de campanha
 function campanha(url){
@@ -116,6 +197,7 @@ function campanha(url){
 
         }
 
+        // adiciona o comentario
         fetch(API+"/comentario/campanha/"+url,{
             "method":"GET"
         }).then(r => r.json())
@@ -133,13 +215,8 @@ function campanha(url){
                 $comentario.innerText = k[i].comentario;
                 $a.href = "#comentario/"+k[i].id;
 
-                $a.addEventListener('click', _ => {
-                    let $campanhaComen = document.querySelector(".campanhaComentarios")
-                    
-                    let $h2 = document.querySelector(".textoInicialComent");
-                    $h2.innerText = "Comentarios Respondidos";
-
-                })
+                // parte para ver as respostas de um comentario
+                $a.addEventListener('click', _ => {veRespostas(k[i].id,k[i].comentario)})
 
                 $a.appendChild($nome)
                 $div.appendChild($a)
