@@ -1,120 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <title>AJuDE</title>
-    <meta charset=utf-8>
-    <link rel="stylesheet" href="css/index.css">
-    <script type="module" src="js/index.js"></script>
-</head>
+    <head>
+        <title>AJuDE</title>
+        <meta charset=utf-8>
+        <link rel="stylesheet" href="css/index.css">
+        <script type="module" src="js/index.js"></script>
+    </head>
 
-<body class="centro">
+    <body class="centro">
 
-    <header>
-        <!--h1 class = "logo">AJuDE</h1-->
-        <ul>
-            <li><a href="">Home</a></li>
-            <li><a href="#Login" class="linkLogin">Login</a></li>
-            <li><a href="">Sobre</a></li>
-            <li><a href = "#Cadastro" class = "linkCadastro">Cadastro</a></li>
-            <li><a href = "#Usuario" class = "perfilUsuario">Usuario</a></li>
-            <li id="busca">
-                <input type="text" id="txtBusca" placeholder="Buscar" />
-            </li>
-        </ul>
-    </header>
+        <header>
+            <!--h1 class = "logo">AJuDE</h1-->
+            <ul>
+                <li><a href="">Home</a></li>
+                <li><a href="#Login" class="linkLogin">Login</a></li>
+                <li><a href="">Sobre</a></li>
+                <li><a href = "#Cadastro" class = "linkCadastro">Cadastro</a></li>
+                <li><a href = "#Usuario" class = "perfilUsuario">Usuario</a></li>
+                <li id="busca">
+                    <input type="text" id="txtBusca" placeholder="Buscar" />
+                </li>
+            </ul>
+        </header>
 
-    <!-- main que vai ter tudo KK-->
-    <main>
-        
-    </main>
+        <!-- main que vai ter tudo KK-->
+        <main>
+            
+        </main>
 
-    <template class = "cadastro">
-        <div class = "loginCadastro">
-            <div class = "contem">
-                <p class="text">Nome</p>
-                <input class="input Nome " type="text" placeholder="Seu nome">
+        <template class = "cadastro">
+            <div class = "loginCadastro">
+                <div class = "contem">
+                    <p class="text">Nome</p>
+                    <input class="input Nome " type="text" placeholder="Seu nome">
 
-                <p class="text">Sobrenome</p>
-                <input class="input UltimoNome" type="text" placeholder="Seu sobrenome">
+                    <p class="text">Sobrenome</p>
+                    <input class="input UltimoNome" type="text" placeholder="Seu sobrenome">
 
-                <p class="text ">Email</p>
-                <input class="input Email" type="email" placeholder="Seu email">
+                    <p class="text ">Email</p>
+                    <input class="input Email" type="email" placeholder="Seu email">
 
-                <p class="text">Cartão de Crédito</p>
-                <input class="input CartaoDeCredito" type="text" placeholder="Seu cartão de crédito">
+                    <p class="text">Cartão de Crédito</p>
+                    <input class="input CartaoDeCredito" type="text" placeholder="Seu cartão de crédito">
 
-                <p class="text ">Senha</p>
-                <input class="input Senha" type="password" placeholder="Sua senha">
+                    <p class="text ">Senha</p>
+                    <input class="input Senha" type="password" placeholder="Sua senha">
 
-                <button class="save">Salvar Usuário</button>
-            </div>
-        </div>
-    </template>
-
-    <template class="login">
-        <div class = "loginCadastro">
-            <div class = "contem">
-                <p class="text">Email</p>
-                <input class="input Email" type="text" placeholder="Seu email">
-
-                <p class="text">Senha</p>
-                <input class="input Senha" type="text" placeholder="Sua senha">
-
-                <button class="save ">Entrar</button>
-
-                <a href = "">Esqueceu sua senha?</a>
-                <a href=".cadastro">Cadastre-se agora</a>
-            </div>
-        </div>
-    </template>
-
-
-    <template class = "perfil">
-        <div class = "gridPerfilUsuario">
-            <div class = "perfilUsuario">
-                <h3 class = "nomeUsuario">aaaa</h3>
-                <p class = "emailUsuario">aaaa</p>
-                <p class = "senhaUsuario">aaaaa</p>
-                <p class = "cartaoDeCreditoUsuario">aaaa</p>
-
-                <button class = "sair">Logout</button>
-            </div>
-
-            <div class = "campanhasUsuario">
-                <div class = "campanhasDono">
-                    <h3>Campanhas que o usuario é dono:</h3>
-                </div>
-
-                <div class = "campanhasDoadas">
-                    <h3>Campanhas que o usuario doou:</h3>
+                    <button class="save">Salvar Usuário</button>
                 </div>
             </div>
-        </div>
-    </template>
+        </template>
 
-    <template class = "campanha">
-        <div class = "campanhaGrid">
-            <div class = "infoCampanha">
-                <h2 class = "campanhaNome">a</h2>
-                <hr>
-                <p class = "campanhaDescricao">aa</p>
-                <p class = "campanhaDataLimite">a</p>
-                <p class = "campanhaStatus">a</p>
-                <p class = "campanhaUrl">a</p>
-                <p class = "campanhaMeta">d</p>
-                <p class = "campanhaDoacoes">d</p>
+        <template class="login">
+            <div class = "loginCadastro">
+                <div class = "contem">
+                    <p class="text">Email</p>
+                    <input class="input Email" type="text" placeholder="Seu email">
+
+                    <p class="text">Senha</p>
+                    <input class="input Senha" type="text" placeholder="Sua senha">
+
+                    <button class="save ">Entrar</button>
+
+                    <a href = "">Esqueceu sua senha?</a>
+                    <a href=".cadastro">Cadastre-se agora</a>
+                </div>
             </div>
+        </template>
 
-            <div class = "campanhaComentarios">
-                <h2 class = "textoInicialComent">Comentarios:</h2>
-                <hr>
+
+        <template class = "perfil">
+            <div class = "gridPerfilUsuario">
+                <div class = "perfilUsuario">
+                    <h3 class = "nomeUsuario">aaaa</h3>
+                    <p class = "emailUsuario">aaaa</p>
+                    <p class = "senhaUsuario">aaaaa</p>
+                    <p class = "cartaoDeCreditoUsuario">aaaa</p>
+
+                    <button class = "sair">Logout</button>
+                    <button class = "CadastrarCampanha">Cadastrar Campanha</button>
+                </div>
+
+                <div class = "campanhasUsuario">
+                    <div class = "campanhasDono">
+                        <h3>Campanhas que o usuario é dono:</h3>
+                    </div>
+
+                    <div class = "campanhasDoadas">
+                        <h3>Campanhas que o usuario doou:</h3>
+                    </div>
+                </div>
             </div>
-        </div>
-    </template>
+        </template>
+
+        <template class = "campanha">
+            <div class = "campanhaGrid">
+                <div class = "infoCampanha">
+                    <h2 class = "campanhaNome">a</h2>
+                    <hr>
+                    <p class = "campanhaDescricao">aa</p>
+                    <p class = "campanhaDataLimite">a</p>
+                    <p class = "campanhaStatus">a</p>
+                    <p class = "campanhaUrl">a</p>
+                    <p class = "campanhaMeta">d</p>
+                    <p class = "campanhaDoacoes">d</p>
+                </div>
+
+                <div class = "campanhaComentarios">
+                    <h2 class = "textoInicialComent">Comentarios:</h2>
+                    <hr>
+                </div>
+            </div>
+        </template>
 
 
-    <footer></footer>
-</body>
+        <footer></footer>
+    </body>
 
 </html>

@@ -280,6 +280,7 @@ function perfilUsuario(){
             localStorage.removeItem("token");
         })
 
+        // informações do usuario
         fetch(API + "/usuarios/" + localStorage.getItem("email"),{
             'method': "GET",
         }).then(r => r.json())
@@ -295,6 +296,8 @@ function perfilUsuario(){
             $senha.innerText = "Senha: " + j.senha;
         })
 
+
+        // fetch para pegar as campanhas que o usuario eh dono
         fetch(API+"/usuarios/campanhas/"+localStorage.getItem("email"),{
             'method':"GET"
         }).then(r => r.json())
@@ -338,6 +341,8 @@ function perfilUsuario(){
             }
         })
 
+
+        // campanhas que o usuario doou
         fetch(API+"/auth/campanha/doacao",{
             'method':"GET",
             "headers":{
@@ -349,13 +354,14 @@ function perfilUsuario(){
                 localStorage.removeItem("token")
                 return undefined;
             }
-            return r.json()})
+            return r.json()
+        })
         .then(j =>{
             if(j === undefined) return;
             let lista = j;
             console.log(lista)
             for(let i = 0; i < j.length; i++){
-                let $campanhaDono = document.querySelector(".campanhasDoadas"); 
+                let $campanhasDoadas = document.querySelector(".campanhasDoadas"); 
 
                 let $div = document.createElement("div")
 
@@ -387,7 +393,7 @@ function perfilUsuario(){
                 $div.appendChild($meta)
                 $div.appendChild($doacoes)
                 $div.appendChild(document.createElement("hr"))
-                $campanhaDono.appendChild($div);
+                $campanhasDoadas.appendChild($div);
             }
         })
 
@@ -399,7 +405,6 @@ function perfilUsuario(){
 
 
 (function init(){
-    console.log("inicionou")
     
     let hash = location.hash;
     let $main = document.querySelector("main");
@@ -418,7 +423,7 @@ function perfilUsuario(){
     if(hash === "#Cadastro"){
         setTimeout(viewCadastro,0);
     } else if (hash === "#Login") {
-        setTimeout(login(),0);
+        setTimeout(login,0);
     }else if(hash === "#Usuario"){
         setTimeout(perfilUsuario,0);
     }
