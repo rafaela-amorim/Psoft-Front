@@ -263,6 +263,45 @@ function campanha(url){
     })
 }
 
+function saveCamp() {
+    let nome = document.querySelector(".nomeCamp").value;
+    let descricao = document.querySelector(".descricaoCamp").value;
+    let meta = document.querySelector(".metaCamp").value;
+    let data = document.querySelector(".dataCamp").value;
+    let json = `{"nome": "${nome}", "descricao": "${descricao}", "meta": ${meta}, "dataLimite": "${data}"}`
+
+    console.log(json);
+
+    fetch(API + "/auth/campanha" , {
+        'method':'POST',
+        'body': json,
+        'headers' : {"Authorization":"Bearer "+localStorage.getItem("token"),'Content-Type':'application/json'}
+    }).then(r => {
+        if (r.status === 201) {
+            alert("Campanha cadastrada com sucesso.");
+            return r.json();
+        } else {
+            alert("Não foi possível criar a campanha.")
+            return undefined;
+        }
+    })
+}
+
+function cadastraCampanha() {
+    location.hash = "#cadastraCamp";
+
+    if (localStorage.getItem("token") === null) {
+        setTimeout(login, 0);
+    } else {
+        let $main = document.querySelector("main");
+        let $campanha = document.querySelector(".cadastraCamp");
+        $main.innerHTML = $campanha.innerHTML;
+
+        let $cadastra = document.querySelector(".botaoCamp");
+        $cadastra.addEventListener('click',_ => {setTimeout(saveCamp, 0);})
+    }
+}
+
 // metodo que mostra a view do usuario
 function perfilUsuario(){
     location.hash = "#Usuario"
@@ -296,6 +335,8 @@ function perfilUsuario(){
             $senha.innerText = "Senha: " + j.senha;
         })
 
+        let $addCamp = document.querySelector(".cadastrarCampanha");
+        $addCamp.addEventListener('click', cadastraCampanha);
 
         // fetch para pegar as campanhas que o usuario eh dono
         fetch(API+"/usuarios/campanhas/"+localStorage.getItem("email"),{
