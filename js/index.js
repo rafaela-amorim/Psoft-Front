@@ -153,11 +153,24 @@ function veRespostas(id, coment){
     })
 }
 
-// dar likes
-// function like() {
-//     fetch(API + "/auth/like")
-// }
 
+// dar likes
+function like(url) {
+    if (!(localStorage.getItem("token") === null)) {
+        let email = localStorage.getItem("email");
+        let json = `{"email": "${localStorage.getItem("email")}", "urlCampanha": "${url}"}`;
+
+        fetch(API + "/auth/like", {
+            'method': "POST",
+            'body': json,
+            'headers': {"Authorization":"Bearer "+localStorage.getItem("token"),"Content-type":"application/json"}
+        })
+        .then(r => r.json())
+        .then(j => {
+            console.log(j);
+        });
+    }
+}
 
 // função que mostra a view de campanha
 function campanha(url){
@@ -198,11 +211,17 @@ function campanha(url){
                 }).then(r => r.json())
                 .then(j => {
                     console.log(j);
-                    setTimeout(campanha(url),0);
+                    setTimeout(_ => {campanha(url)}, 0);
                 })
             })
 
         }
+
+        // chama função que dá like
+        let $likeButton = document.querySelector(".like");
+        $likeButton.addEventListener('click',_ => {
+            setTimeout(_ => {like(url)}, 0)
+        });
 
         // adiciona o comentario
         fetch(API+"/comentario/campanha/"+url,{
