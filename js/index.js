@@ -347,8 +347,8 @@ function home() {
 
 function findBySubstr() {
     let substring = document.querySelector(".campBySubstr").value;
-            
-    fetch(API+"/campanha/find/descr/" + substring, 
+    console.log(substring);
+    fetch(API+"/campanha/find/descr/busca=?" + substring, 
     {
         'method': "GET",
     })
