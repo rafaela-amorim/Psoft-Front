@@ -315,14 +315,26 @@ function home() {
 
     let $main = document.querySelector("main");
     let $home = document.querySelector(".home");
+
     $main.innerHTML = $home.innerHTML;
-    
-    fetch(API + "/campanha/sort/meta", {
+
+    let $button = document.querySelector(".select")
+    $button.addEventListener("click", _ => {
+        let ord = document.querySelector(".selectOrd").value;
+        console.log(ord)
+        
+        ordenaPor(ord);
+    })
+
+}
+
+function ordenaPor(ord) {
+    fetch(API + "/campanha/sort/" + ord, {
         'method': 'GET'
     }).then(r => r.json())
     .then(j => {
-        for (let i = 0; i < j.length; i++) {
-            let $pagInicial = document.querySelector(".pagInicial");
+        for (let i = 0; i < 5; i++) {
+            let $campanhasHome = document.querySelector(".campanhasHome");
             
             let $div = document.createElement("div");
             let $nome = document.createElement("a");
@@ -339,11 +351,11 @@ function home() {
             $div.appendChild($meta);
             $div.appendChild($likes);
             $div.appendChild(document.createElement("hr"));
-            $pagInicial.appendChild($div);
+            $campanhasHome.appendChild($div);
         }
     })
-
 }
+
 
 function findBySubstr() {
     let substring = document.querySelector(".campBySubstr").value;
