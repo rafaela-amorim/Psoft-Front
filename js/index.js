@@ -153,6 +153,11 @@ function veRespostas(id, coment){
     })
 }
 
+// dar likes
+// function like() {
+//     fetch(API + "/auth/like")
+// }
+
 
 // função que mostra a view de campanha
 function campanha(url){
@@ -170,6 +175,8 @@ function campanha(url){
         document.querySelector(".campanhaUrl").innerText = "ULR: "+j.url;
         document.querySelector(".campanhaMeta").innerText = "Meta: "+j.meta;
         document.querySelector(".campanhaDoacoes").innerText = "Doacoes: "+j.doacoes;
+        document.querySelector(".campanhaLikes").innerText = "Likes: " + j.likes;
+        document.querySelector(".campanhasDislikes").innerText = "Dislikes: " + j.dislikes;
 
         if(!(localStorage.getItem("token") === null)){
             let $infoCampanha = document.querySelector(".infoCampanha");
@@ -263,6 +270,7 @@ function campanha(url){
     })
 }
 
+// adiciona uma campanha
 function saveCamp() {
     let nome = document.querySelector(".nomeCamp").value;
     let descricao = document.querySelector(".descricaoCamp").value;
@@ -286,6 +294,7 @@ function saveCamp() {
     })
 }
 
+// encapsula saveCamp
 function cadastraCampanha() {
     location.hash = "#cadastraCamp";
 
@@ -336,6 +345,19 @@ function home() {
 
 }
 
+function findBySubstr() {
+    let substring = document.querySelector(".campBySubstr").value;
+            
+    fetch(API+"/campanha/find/descr/" + substring, 
+    {
+        'method': "GET",
+    })
+    .then(r => r.json())
+    .then(j => {
+        console.log(j);
+    });   
+}
+
 // metodo que mostra a view do usuario
 function perfilUsuario(){
     location.hash = "#Usuario"
@@ -352,6 +374,11 @@ function perfilUsuario(){
             setTimeout(login,0);
             localStorage.removeItem("token");
         })
+
+        
+        // find campanha by substring on title/description
+        let $pesquisar = document.querySelector(".pesquisar");
+        $pesquisar.addEventListener('click', _ => setTimeout(findBySubstr, 0));
 
         // informações do usuario
         fetch(API + "/usuarios/" + localStorage.getItem("email"),{
