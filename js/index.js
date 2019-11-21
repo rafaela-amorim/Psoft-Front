@@ -154,7 +154,7 @@ function veRespostas(id, coment){
 }
 
 
-// dar likes
+// dar/remover likes
 function like(url) {
     if (!(localStorage.getItem("token") === null)) {
         let email = localStorage.getItem("email");
@@ -165,12 +165,40 @@ function like(url) {
             'body': json,
             'headers': {"Authorization":"Bearer "+localStorage.getItem("token"),"Content-type":"application/json"}
         })
-        .then(r => r.json())
-        .then(j => {
-            console.log(j);
-        });
+        .then(r => {
+            // if (r.status === 409) {
+            //     console.log("aa")
+            //     console.log(url);
+
+            //     fetch(API + "/auth/like/campanha/remove/"+url, {
+            //         'method': "DELETE",
+            //         'headers': {"Authorization":"Bearer "+localStorage.getItem("token")}
+            //     })
+            //     .then(re => {return re.json()})
+            // } 
+            // console.log(r);
+            return r.json()
+        })
+        .then(j => {setTimeout(_ => {campanha(j.urlCampanha)}, 0)});
     }
 }
+
+function removeLike(url) {
+    if (!(localStorage.getItem("token") === null)) {
+        let email = localStorage.getItem("email");
+        
+        fetch(API + "/auth/like/campanha/remove/"+url, {
+            'method': "DELETE",
+            'headers': {"Authorization":"Bearer "+localStorage.getItem("token")}
+        })
+        .then(r => {return r.json()})
+        .then(j => {setTimeout(_ => {campanha(j.urlCampanha)}, 0)});
+    }
+}
+
+// dar dislikes
+
+// remover dislike
 
 // função que mostra a view de campanha
 function campanha(url){
@@ -189,7 +217,7 @@ function campanha(url){
         document.querySelector(".campanhaMeta").innerText = "Meta: "+j.meta;
         document.querySelector(".campanhaDoacoes").innerText = "Doacoes: "+j.doacoes;
         document.querySelector(".campanhaLikes").innerText = "Likes: " + j.likes;
-        document.querySelector(".campanhasDislikes").innerText = "Dislikes: " + j.dislikes;
+        document.querySelector(".campanhaDislikes").innerText = "Dislikes: " + j.dislikes;
 
         if(!(localStorage.getItem("token") === null)){
             let $infoCampanha = document.querySelector(".infoCampanha");
@@ -217,11 +245,17 @@ function campanha(url){
 
         }
 
-        // chama função que dá like
+        // chama função que da ou remove like
         let $likeButton = document.querySelector(".like");
         $likeButton.addEventListener('click',_ => {
             setTimeout(_ => {like(url)}, 0)
         });
+
+        let $unlikeButton = document.querySelector(".removeLike");
+        $unlikeButton.addEventListener('click', _ => {
+            setTimeout(_ => {removeLike(url)}, 0)
+        })
+
 
         // adiciona o comentario
         fetch(API+"/comentario/campanha/"+url,{
@@ -379,7 +413,7 @@ function ordenaPor(ord) {
 function findBySubstr() {
     let substring = document.querySelector(".campBySubstr").value;
     console.log(substring);
-    fetch(API+"/campanha/find/descr/busca=?" + substring, 
+    fetch(API+"/campanha/find/descr/busca=" + substring, 
     {
         'method': "GET",
     })
