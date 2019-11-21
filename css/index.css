@@ -25,6 +25,10 @@ header {
 
 }
 
+main {
+    padding: 20px;
+}
+
 /*
 main {
     grid-area: corpo;
@@ -118,23 +122,44 @@ li a:hover {
     background-color: #111;
 }
 
-#busca {
-    background-color: #696969;
-    border: solid 1px;
-    border-radius: 5px;
-    width: 300px;
+.search {
     float: right;
+    padding: 5px;
 }
-   
-#txtBusca {
-    float: left;
-    background-color: transparent;
-    padding-left: 5px;
-    font-size: 18px;
-    border: none;
-    height: 32px;
-    width: 260px;
+
+.busca {
+    padding: 8px;
+    width: 80%;
 }
+
+.botaoBusca {
+    padding: 8px;
+    position: absolute;
+}
+
+.selectOrdenacao {
+    padding-bottom: 20px;
+}
+
+.selectOrd {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url(http://www.webcis.com.br/images/imagens-noticias/select/ico-seta-appearance.gif) no-repeat #eeeeee;
+    background-position: 218px center;
+    width: 250px;
+    height: 30px;
+}
+
+.selectOrd select {
+    display: none;
+}
+
+
+
+.botaoBusca {
+    height: 30px;
+}
+
 
 /* O perfil do usuario vem aqui */
 

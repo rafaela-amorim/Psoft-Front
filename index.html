@@ -1,165 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <title>AJuDE</title>
-        <meta charset=utf-8>
-        <link rel="stylesheet" href="css/index.css">
-        <script type="module" src="js/index.js"></script>
-    </head>
+<head>
+    <title>AJuDE</title>
+    <meta charset=utf-8>
+    <link rel="stylesheet" href="css/index.css">
+    <script type="module" src="js/index.js"></script>
+</head>
 
-    <body class="centro">
+<body class="centro">
 
-        <header>
-            <!--h1 class = "logo">AJuDE</h1-->
-            <ul>
-                <li><a href="">Home</a></li>
-                <li><a href="#Login" class="linkLogin">Login</a></li>
-                <li><a href="">Sobre</a></li>
-                <li><a href = "#Cadastro" class = "linkCadastro">Cadastro</a></li>
-                <li><a href = "#Usuario" class = "perfilUsuario">Usuario</a></li>
-                <li id="busca">
-                    <input type="text" id="txtBusca" placeholder="Buscar" />
-                </li>
-            </ul>
-        </header>
+    <header>
+        <!--h1 class = "logo">AJuDE</h1-->
+        <ul>
+            <li><a href="">Home</a></li>
+            <li><a href="#Login" class="linkLogin">Login</a></li>
+            <li><a href="#Cadastro" class="linkCadastro">Cadastro</a></li>
+            <li><a href="#Usuario" class="perfilUsuario">Usuário</a></li>
+            <li class="search">
+            <input type="search" placeholder="Buscar" class="busca">
+            <button type="submit" class="botaoBusca">OK</button>
+            <!--<input type="text" id="txtBusca" placeholder="Buscar" />-->
+            </li>
+        </ul>
+    </header>
 
-        <!-- main que vai ter tudo KK-->
-        <main>
-            
-        </main>
+    <!-- main que vai ter tudo KK-->
+    <main>
 
-        <template class="home">
-            <div class="pagInicial">
-                <div>
-                    <select class="selectOrd">
-                        <option value="" selected="selected">Ordenar por</option>
-                        <option value="meta">Meta</option>
-                        <option value="data">Data de vencimento</option>
-                        <option value="likes">Likes</option>
-                    </select>
-                    <button class="select">Ordenar</button>
-                </div>
-                <div class="campanhasHome"></div>
+    </main>
+
+    <template class="home">
+        <div class="pagInicial">
+            <div class="selectOrdenacao">
+                <select class="selectOrd">
+                    <option value="" selected="selected">Ordenar por</option>
+                    <option value="meta">Meta</option>
+                    <option value="data">Data de vencimento</option>
+                    <option value="likes">Likes</option>
+                </select>
+                <button class="select">Ordenar</button>
             </div>
-        </template>
+            <div class="campanhasHome"></div>
+        </div>
+    </template>
 
-        <template class = "cadastro">
-            <div class = "loginCadastro">
-                <div class = "contem">
-                    <p class="text">Nome</p>
-                    <input class="input Nome " type="text" placeholder="Seu nome">
-
-                    <p class="text">Sobrenome</p>
-                    <input class="input UltimoNome" type="text" placeholder="Seu sobrenome">
-
-                    <p class="text ">Email</p>
-                    <input class="input Email" type="email" placeholder="Seu email">
-
-                    <p class="text">Cartão de Crédito</p>
-                    <input class="input CartaoDeCredito" type="text" placeholder="Seu cartão de crédito">
-
-                    <p class="text ">Senha</p>
-                    <input class="input Senha" type="password" placeholder="Sua senha">
-
-                    <button class="save">Salvar Usuário</button>
-                </div>
-            </div>
-        </template>
-
-        <template class="login">
-            <div class = "loginCadastro">
-                <div class = "contem">
-                    <p class="text">Email</p>
-                    <input class="input Email" type="text" placeholder="Seu email">
-
-                    <p class="text">Senha</p>
-                    <input class="input Senha" type="text" placeholder="Sua senha">
-
-                    <button class="save ">Entrar</button>
-
-                    <a href = "">Esqueceu sua senha?</a>
-                    <a href=".cadastro">Cadastre-se agora</a>
-                </div>
-            </div>
-        </template>
-
-
-        <template class = "perfil">
-            <div class = "gridPerfilUsuario">
-                <div class = "perfilUsuario">
-                    <h3 class = "nomeUsuario">aaaa</h3>
-                    <p class = "emailUsuario">aaaa</p>
-                    <p class = "senhaUsuario">aaaaa</p>
-                    <p class = "cartaoDeCreditoUsuario">aaaa</p>
-
-                    <button class = "sair">Logout</button>
-                    <button class = "cadastrarCampanha">Cadastrar Campanha</button>
-
-                    <input class="input campBySubstr" type="text" placeholder="Busque uma campanha">
-                    <button class="save pesquisar">Pesquisar</button>
-                </div>
-
-                <div class = "campanhasUsuario">
-                    <div class = "campanhasDono">
-                        <h3>Campanhas que o usuario é dono:</h3>
-                    </div>
-
-                    <div class = "campanhasDoadas">
-                        <h3>Campanhas que o usuario doou:</h3>
-                    </div>
-                </div>
-            </div>
-        </template>
-
-        <template class = "campanha">
-            <div class = "campanhaGrid">
-                <div class = "infoCampanha">
-                    <h2 class = "campanhaNome">a</h2>
-                    <hr>
-                    <p class = "campanhaDescricao">aa</p>
-                    <p class = "campanhaDataLimite">a</p>
-                    <p class = "campanhaStatus">a</p>
-                    <p class = "campanhaUrl">a</p>
-                    <p class = "campanhaMeta">d</p>
-                    <p class = "campanhaDoacoes">d</p>
-                    <p class = "campanhaLikes"></p>
-                    <p class = "campanhaDislikes"></p>
-
-                    <button class="like">Like</button>
-                    <button class="dislike">Dislike</button>
-                </div>
-
-                <div class = "campanhaComentarios">
-                    <h2 class = "textoInicialComent">Comentarios:</h2>
-                    <hr>
-                </div>
-            </div>
-        </template>
-
-        <template class="cadastraCamp">
-            <div class="gridCadastraCampanha">
-                <h2>Cadastre uma nova campanha</h2>
-
+    <template class="cadastro">
+        <div class="loginCadastro">
+            <div class="contem">
                 <p class="text">Nome</p>
-                <input class="input nomeCamp" type="text" placeholder="Nome da campanha">
+                <input class="input Nome " type="text" placeholder="Seu nome">
 
-                <p class="text">Descricao</p>
-                <input class="input descricaoCamp" type="text" placeholder="Adicione uma breve descrição da sua campanha">
+                <p class="text">Sobrenome</p>
+                <input class="input UltimoNome" type="text" placeholder="Seu sobrenome">
 
-                <p class="text">Meta</p>
-                <input class="input metaCamp" type="text" placeholder="Quantidade de dinheiro que você quer conseguir">
+                <p class="text ">Email</p>
+                <input class="input Email" type="email" placeholder="Seu email">
 
-                <p class="text">Data de encerramento</p>
-                <input class="input dataCamp" type="date">
+                <p class="text">Cartão de Crédito</p>
+                <input class="input CartaoDeCredito" type="text" placeholder="Seu cartão de crédito">
 
-                <button class="save botaoCamp">Cadastrar</button>
+                <p class="text ">Senha</p>
+                <input class="input Senha" type="password" placeholder="Sua senha">
 
+                <button class="save">Salvar Usuário</button>
             </div>
-        </template>
+        </div>
+    </template>
+
+    <template class="login">
+        <div class="loginCadastro">
+            <div class="contem">
+                <p class="text">Email</p>
+                <input class="input Email" type="text" placeholder="Seu email">
+
+                <p class="text">Senha</p>
+                <input class="input Senha" type="text" placeholder="Sua senha">
+
+                <button class="save ">Entrar</button>
+
+                <a href="">Esqueceu sua senha?</a>
+                <a href=".cadastro">Cadastre-se agora</a>
+            </div>
+        </div>
+    </template>
 
 
-        <footer></footer>
-    </body>
+    <template class="perfil">
+        <div class="gridPerfilUsuario">
+            <div class="perfilUsuario">
+                <h3 class="nomeUsuario"></h3>
+                <p class="emailUsuario"></p>
+                <p class="senhaUsuario"></p>
+                <p class="cartaoDeCreditoUsuario"></p>
+
+                <button class="sair">Logout</button>
+                <button class="cadastrarCampanha">Cadastrar Campanha</button>
+
+                <input class="input campBySubstr" type="text" placeholder="Busque uma campanha">
+                <button class="save pesquisar">Pesquisar</button>
+            </div>
+
+            <div class="campanhasUsuario">
+                <div class="campanhasDono">
+                    <h3>Campanhas que o usuario é dono:</h3>
+                </div>
+
+                <div class="campanhasDoadas">
+                    <h3>Campanhas que o usuario doou:</h3>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template class="campanha">
+        <div class="campanhaGrid">
+            <div class="infoCampanha">
+                <h2 class="campanhaNome">a</h2>
+                <hr>
+                <p class="campanhaDescricao">aa</p>
+                <p class="campanhaDataLimite">a</p>
+                <p class="campanhaStatus">a</p>
+                <p class="campanhaUrl">a</p>
+                <p class="campanhaMeta">d</p>
+                <p class="campanhaDoacoes">d</p>
+                <p class="campanhaLikes"></p>
+                <p class="campanhaDislikes"></p>
+
+                <button class="like">Like</button>
+                <button class="dislike">Dislike</button>
+            </div>
+
+            <div class="campanhaComentarios">
+                <h2 class="textoInicialComent">Comentários:</h2>
+                <hr>
+            </div>
+        </div>
+    </template>
+
+    <template class="cadastraCamp">
+        <div class="gridCadastraCampanha">
+            <h2>Cadastre uma nova campanha</h2>
+
+            <p class="text">Nome</p>
+            <input class="input nomeCamp" type="text" placeholder="Nome da campanha">
+
+            <p class="text">Descrição</p>
+            <input class="input descricaoCamp" type="text" placeholder="Adicione uma breve descrição da sua campanha">
+
+            <p class="text">Meta</p>
+            <input class="input metaCamp" type="text" placeholder="Quantidade de dinheiro que você quer conseguir">
+
+            <p class="text">Data de encerramento</p>
+            <input class="input dataCamp" type="date">
+
+            <button class="save botaoCamp">Cadastrar</button>
+
+        </div>
+    </template>
+
+
+    <footer></footer>
+</body>
 
 </html>
