@@ -153,66 +153,63 @@ function veRespostas(id, coment) {
     })
 }
 
-// dar likes
+// dar/remover likes
 function like(url) {
     if (!(localStorage.getItem("token") === null)) {
         let json = `{"email": "${localStorage.getItem("email")}", "urlCampanha": "${url}"}`;
-
+        
+        console.log("like:"+ url);
         fetch(API + "/auth/like", {
             'method': "POST",
             'body': json,
             'headers': { "Authorization": "Bearer " + localStorage.getItem("token"), "Content-type": "application/json" }
         })
-            .then(r => r.json())
-            .then(j => {setTimeout(_ => {campanha(j.urlCampanha)}, 0)});
-    }
-}
-
-// dar/remover likes
-
-function removeLike(url) {
-    if (!(localStorage.getItem("token") === null)) {
-        let email = localStorage.getItem("email");
-        
-        fetch(API + "/auth/like/campanha/remove/"+url, {
-            'method': "DELETE",
-            'headers': {"Authorization":"Bearer "+localStorage.getItem("token")}
+        .then(r => {
+            if (r.status === 409) {
+                fetch(API + "/auth/like/campanha/remove/"+url, {
+                    'method': "DELETE",
+                    'headers': {"Authorization":"Bearer "+localStorage.getItem("token")}
+                }).then(re => {
+                    // substitui a response de addLike pela response de removeLike
+                    r = re;   
+                    setTimeout(_ => {campanha(url)}, 0);  
+                })
+            } else {
+                setTimeout(_ => {campanha(url)}, 0);
+            }
         })
-        .then(r => {return r.json()})
-        .then(j => {setTimeout(_ => {campanha(j.urlCampanha)}, 0)});
     }
 }
 
-// dar dislikes
 
+// dar/remover dislikes
 function dislike(url)  {
     if (!(localStorage.getItem("token") === null)) {
         let json = `{"email": "${localStorage.getItem("email")}", "urlCampanha": "${url}"}`;
 
+        console.log("dislike: "+url)
         fetch(API + "/auth/dislike", {
-            'method':"POST",
+            'method': "POST",
             'body': json,
-            'headers':{ "Authorization": "Bearer " + localStorage.getItem("token"), "Content-type": "application/json" }
-        }).then(r => r.json())
-        .then(j => {
-            setTimeout(_ => {campanha(j.urlCampanha)}, 0);
+            'headers': { "Authorization": "Bearer " + localStorage.getItem("token"), "Content-type": "application/json" }
+        })
+        .then(r => {
+            if (r.status === 409) {
+                fetch(API + "/auth/dislike/campanha/remove/"+url, {
+                    'method': "DELETE",
+                    'headers': {"Authorization":"Bearer "+localStorage.getItem("token")}
+                }).then(re => {
+                    // substitui a response de addDislike pela response de removeDislike
+                    r = re;
+                    setTimeout(_ => {campanha(url)}, 0);       
+                })
+            } else {
+                setTimeout(_ => {campanha(url)}, 0);  
+            }
         })
     }
 }
 
-// remover dislike
-function removeDislike(url) {
-    if (!(localStorage.getItem("token") === null)) {
-
-        console.log("uhhhmmm");
-        fetch(API + "/auth/dislike/campanha/remove/"+url, {
-            'method': "DELETE",
-            'headers': {"Authorization":"Bearer "+localStorage.getItem("token")}
-        })
-        .then(r => {return r.json()})
-        .then(j => {setTimeout(_ => {campanha(j.urlCampanha)}, 0)});
-    }
-}
 
 // função que mostra a view de campanha
 function campanha(url) {
@@ -260,30 +257,17 @@ function campanha(url) {
                 })
             }
 
-            // chama função que dá like
+            // chama função que dá ou remove um like
             let $likeButton = document.querySelector(".like");
             $likeButton.addEventListener('click', _ => {
                 setTimeout(_ => { like(url) }, 0)
             });
 
-            // chama função que tira like
-            let $remLike = document.querySelector(".removeLike");
-            $remLike.addEventListener('click', _ => {
-                setTimeout(_ => { removeLike(url) }, 0)
-            });
-
-            // chama função que dá dislike
+            // chama função que dá ou remove um dislike
             let $dislike = document.querySelector(".dislike");
             $dislike.addEventListener('click', _ => {
                 console.log(url);
                 setTimeout(_ => {dislike(url)}, 0)
-            });
-
-            // chama função que remove dislike
-            let $remDislike = document.querySelector(".removeDislike");
-            $remDislike.addEventListener('click', _ => {
-                console.log("hummmok");
-                setTimeout(_ => {removeDislike(url)}, 0)
             });
 
             // adiciona o comentario
@@ -621,7 +605,7 @@ function perfilUsuario() {
         setTimeout(perfilUsuario, 0);
     }
     else if (hash.substr(0, 10) === "#campanha/") {
-        setTimeout(_ => { campanha(hash.substr(9)) });
+        setTimeout(_ => { campanha(hash.substr(10)) });
     }
     else {
         setTimeout(home, 0);
