@@ -20,6 +20,11 @@ function save() {
             alert("usuario cadastrado com sucesso!")
             setTimeout(login, 0);
         }
+        if(r.status === 401){
+            localStorage.removeItem("email")
+            localStorage.removeItem("token")
+            setTimeout(login,0);
+        }
         return r.json();
     })
         .then(j => {
@@ -39,6 +44,12 @@ function authenticate() {
         'body': json,
         'headers': { 'Content-Type': 'application/json' }
     }).then(r => {
+
+        if(r.status === 401){
+            localStorage.removeItem("email")
+            localStorage.removeItem("token")
+            setTimeout(login,0);
+        }
         if (r.status === 200)
             setTimeout(perfilUsuario, 0);
         return r.json();
@@ -92,7 +103,14 @@ function veRespostas(id, coment) {
 
     fetch(API + "/comentario/respostas/" + id, {
         "method": "GET"
-    }).then(r => r.json())
+    }).then(r => {
+        if(r.status === 401){
+            localStorage.removeItem("email")
+            localStorage.removeItem("token")
+            setTimeout(login,0);
+        }
+        return r.json();
+    })
     .then(k => {
         console.log(k)
         let $campanhaComentario = document.querySelector(".campanhaComentarios");
@@ -106,7 +124,7 @@ function veRespostas(id, coment) {
 
             $button.innerText = "Apagar Comentario"
 
-            if(localStorage.getItem("email") === k[i].commentOwner){
+            if(!(localStorage.getItem("token") === null) && localStorage.getItem("email") === k[i].commentOwner){
                 $button.addEventListener('click',_ => {apagaComentario(k[i].id,url)});
                 $div.appendChild($button)
             }
@@ -162,6 +180,11 @@ function veRespostas(id, coment) {
                     'headers':{"Authorization":"Bearer "+localStorage.getItem("token"),"Content-type":"application/json"}
                 }).then(r => {
                     console.log(r)
+                    if(r.status === 401){
+                        localStorage.removeItem("email")
+                        localStorage.removeItem("token")
+                        setTimeout(login,0);
+                    }
                     if(r.status != 201){
                         //setTimeout(login,0);
                     }
@@ -188,6 +211,11 @@ function like(url) {
             'headers': { "Authorization": "Bearer " + localStorage.getItem("token"), "Content-type": "application/json" }
         })
         .then(r => {
+            if(r.status === 401){
+                localStorage.removeItem("email")
+                localStorage.removeItem("token")
+                setTimeout(login,0);
+            }
             if (r.status === 409) {
                 fetch(API + "/auth/like/campanha/remove/"+url, {
                     'method': "DELETE",
@@ -217,6 +245,11 @@ function dislike(url)  {
             'headers': { "Authorization": "Bearer " + localStorage.getItem("token"), "Content-type": "application/json" }
         })
         .then(r => {
+            if(r.status === 401){
+                localStorage.removeItem("email")
+                localStorage.removeItem("token")
+                setTimeout(login,0);
+            }
             if (r.status === 409) {
                 fetch(API + "/auth/dislike/campanha/remove/"+url, {
                     'method': "DELETE",
@@ -242,6 +275,11 @@ function apagaComentario(id,url){
     .then(r => {
         if(r.status === 200){
             setTimeout(_ => {campanha(url)},0);
+        }
+        if(r.status === 401){
+            localStorage.removeItem("email")
+            localStorage.removeItem("token")
+            setTimeout(login,0);
         }
     })
 }
@@ -285,10 +323,16 @@ function campanha(url) {
                         "method": "POST",
                         'body': json,
                         "headers": { "Authorization": "Bearer " + localStorage.getItem("token"), "Content-type": "application/json" }
-                    }).then(r => r.json())
-                        .then(j => {
+                    }).then(r => {
+                        if(r.status === 401){
+                            localStorage.removeItem("email")
+                            localStorage.removeItem("token")
+                            setTimeout(login,0);
+                        }
+                        return r.json()
+                    }).then(j => {
                             setTimeout(_ => { campanha(url) }, 0);
-                        })
+                    })
                 })
             }
 
@@ -308,8 +352,14 @@ function campanha(url) {
             // adiciona o comentario
             fetch(API + "/comentario/campanha/" + url, {
                 "method": "GET"
-            }).then(r => r.json())
-                .then(k => {
+            }).then(r => {
+                if(r.status === 401){
+                    localStorage.removeItem("email")
+                    localStorage.removeItem("token")
+                    setTimeout(login,0);
+                }
+                return r.json()
+            }).then(k => {
                     console.log(k)
                     let $campanhaComentario = document.querySelector(".campanhaComentarios");
                     for (let i = 0; i < k.length; i++) {
@@ -336,7 +386,7 @@ function campanha(url) {
                         $div.appendChild($comentario)
                         
 
-                        if(localStorage.getItem("email") === k[i].commentOwner){
+                        if(!(localStorage.getItem("token") === null) && localStorage.getItem("email") === k[i].commentOwner){
                             $div.appendChild($button);
                             $button.addEventListener('click', _ => {apagaComentario(k[i].id,url)});
                         }
@@ -388,6 +438,11 @@ function saveCamp() {
         'body': json,
         'headers': { "Authorization": "Bearer " + localStorage.getItem("token"), 'Content-Type': 'application/json' }
     }).then(r => {
+        if(r.status === 401){
+            localStorage.removeItem("email");
+            localStorage.removeItem("token");
+            setTimeout(login,0)
+        }
         if (r.status === 201) {
             alert("Campanha cadastrada com sucesso.");
             return r.json();
@@ -395,6 +450,8 @@ function saveCamp() {
             alert("Não foi possível criar a campanha.")
             return undefined;
         }
+
+        
     })
 }
 
@@ -437,10 +494,16 @@ function ordenaPor(ord) {
     
     fetch(API + "/campanha/sort/" + ord, {
         'method': 'GET'
-    }).then(r => r.json())
-        .then(j => {
+    }).then(r => {
+        if(r.status === 401){
+            localStorage.removeItem("email")
+            localStorage.removeItem("token")
+            setTimeout(login,0);
+        }
+        return r.json()
+    }).then(j => {
             console.log(j)
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < Math.min(j.length,5); i++) {
 
                 let $div = document.createElement("div");
                 let $nome = document.createElement("a");
@@ -470,7 +533,14 @@ function findBySubstr() {
     {
         'method': "GET",
     })
-    .then(r => r.json())
+    .then(r => {
+        if(r.status === 401){
+            localStorage.removeItem("email")
+            localStorage.removeItem("token")
+            setTimeout(login,0);
+        }
+        return r.json()
+    })
     .then(j => {
         console.log(j);
     });   
@@ -501,8 +571,14 @@ function perfilUsuario() {
         // informações do usuario
         fetch(API + "/usuarios/" + localStorage.getItem("email"), {
             'method': "GET",
-        }).then(r => r.json())
-            .then(j => {
+        }).then(r => {
+            if(r.status === 401){
+                localStorage.removeItem("email")
+                localStorage.removeItem("token")
+                setTimeout(login,0);
+            }
+            return r.json()
+        }).then(j => {
                 let $nome = document.querySelector(".nomeUsuario")
                 let $email = document.querySelector(".emailUsuario")
                 let $cartao = document.querySelector(".senhaUsuario")
@@ -520,8 +596,14 @@ function perfilUsuario() {
         // fetch para pegar as campanhas que o usuario eh dono
         fetch(API + "/usuarios/campanhas/" + localStorage.getItem("email"), {
             'method': "GET"
-        }).then(r => r.json())
-            .then(j => {
+        }).then(r => {
+            if(r.status === 401){
+                localStorage.removeItem("email")
+                localStorage.removeItem("token")
+                setTimeout(login,0);
+            }
+            return r.json()
+        }).then(j => {
                 let lista = j;
                 console.log(lista)
                 for (let i = 0; i < j.length; i++) {
