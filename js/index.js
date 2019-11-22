@@ -153,8 +153,7 @@ function veRespostas(id, coment) {
     })
 }
 
-
-// dar/remover likes
+// dar likes
 function like(url) {
     if (!(localStorage.getItem("token") === null)) {
         let email = localStorage.getItem("email");
@@ -163,25 +162,14 @@ function like(url) {
         fetch(API + "/auth/like", {
             'method': "POST",
             'body': json,
-            'headers': {"Authorization":"Bearer "+localStorage.getItem("token"),"Content-type":"application/json"}
+            'headers': { "Authorization": "Bearer " + localStorage.getItem("token"), "Content-type": "application/json" }
         })
-        .then(r => {
-            // if (r.status === 409) {
-            //     console.log("aa")
-            //     console.log(url);
-
-            //     fetch(API + "/auth/like/campanha/remove/"+url, {
-            //         'method': "DELETE",
-            //         'headers': {"Authorization":"Bearer "+localStorage.getItem("token")}
-            //     })
-            //     .then(re => {return re.json()})
-            // } 
-            // console.log(r);
-            return r.json()
-        })
-        .then(j => {setTimeout(_ => {campanha(j.urlCampanha)}, 0)});
+            .then(r => r.json())
+            .then(j => {setTimeout(_ => {campanha(j.urlCampanha)}, 0)});
     }
 }
+
+// dar/remover likes
 
 function removeLike(url) {
     if (!(localStorage.getItem("token") === null)) {
@@ -200,145 +188,6 @@ function removeLike(url) {
 
 // remover dislike
 
-// função que mostra a view de campanha
-function campanha(url){
-    let $main = document.querySelector("main")
-    $main.innerHTML = document.querySelector(".campanha").innerHTML;
-
-    fetch(API+"/campanha/"+url,{
-        "method":"GET"
-    }).then(r => r.json())
-    .then(j => {
-        document.querySelector(".campanhaNome").innerText = "Nome: " + j.nome;
-        document.querySelector(".campanhaDescricao").innerText = "Descricao: " + j.descricao;
-        document.querySelector(".campanhaDataLimite").innerText = "Data Limite: " + j.dataLimite.substring(0,10);
-        document.querySelector(".campanhaStatus").innerText = "Status: "+j.status;
-        document.querySelector(".campanhaUrl").innerText = "ULR: "+j.url;
-        document.querySelector(".campanhaMeta").innerText = "Meta: "+j.meta;
-        document.querySelector(".campanhaDoacoes").innerText = "Doacoes: "+j.doacoes;
-        document.querySelector(".campanhaLikes").innerText = "Likes: " + j.likes;
-        document.querySelector(".campanhaDislikes").innerText = "Dislikes: " + j.dislikes;
-
-        if(!(localStorage.getItem("token") === null)){
-            let $infoCampanha = document.querySelector(".infoCampanha");
-            let $input = document.createElement("input");
-            let $button = document.createElement("button");
-
-            $button.innerText = "Fazer doação"
-
-            $infoCampanha.appendChild($input)
-            $infoCampanha.appendChild($button)
-
-            $button.addEventListener('click', _ => {
-                let json = `{"emailDoador":"${localStorage.getItem("email")}","quantia":"${$input.value}","urlCampanha":"${j.url}"}`
-                console.log(json)
-                fetch(API+"/auth/doacao",{
-                    "method":"POST",
-                    'body':json,
-                    "headers":{"Authorization":"Bearer "+localStorage.getItem("token"),"Content-type":"application/json"}
-                }).then(r => r.json())
-                .then(j => {
-                    console.log(j);
-                    setTimeout(_ => {campanha(url)}, 0);
-                })
-            })
-
-        }
-
-        // chama função que da ou remove like
-        let $likeButton = document.querySelector(".like");
-        $likeButton.addEventListener('click',_ => {
-            setTimeout(_ => {like(url)}, 0)
-        });
-
-        let $unlikeButton = document.querySelector(".removeLike");
-        $unlikeButton.addEventListener('click', _ => {
-            setTimeout(_ => {removeLike(url)}, 0)
-        })
-
-
-        // adiciona o comentario
-        fetch(API+"/comentario/campanha/"+url,{
-            "method":"GET"
-        }).then(r => r.json())
-        .then(k => {
-            console.log(k)
-            let $campanhaComentario = document.querySelector(".campanhaComentarios");
-            for (let i = 0; i < k.length; i++) {
-                let $div = document.createElement("div")
-                let $comentario = document.createElement("p")
-                let $a = document.createElement('a')
-                let $nome = document.createElement("h4");
-
-
-                $nome.innerText = k[i].commentOwner + " Disse:"
-                $comentario.innerText = k[i].comentario;
-                $a.href = "#comentario/" + k[i].id;
-
-                // parte para ver as respostas de um comentario
-                $a.addEventListener('click', _ => { veRespostas(k[i].id, k[i].comentario) })
-
-                $a.appendChild($nome)
-                $div.appendChild($a)
-                $div.appendChild($comentario)
-                $div.appendChild(document.createElement("hr"))
-                $campanhaComentario.appendChild($div)
-            }
-            if (localStorage.getItem("token") != null) {
-                let $input = document.createElement("input");
-                let $button = document.createElement("button");
-                $button.innerText = "Responder Comentario";
-
-
-
-                $campanhaComentario.appendChild($input);
-                $campanhaComentario.appendChild($button);
-
-
-
-                $button.addEventListener('click', _ => {
-                    let comentario = $input.value;
-
-                    let json = `{"comentario":"${comentario}","idComentario":${id}}`;
-                    console.log(json)
-                    fetch(API + "/auth/comentario/", {
-                        "method": "POST",
-                        'body': json,
-                        'headers': { "Authorization": "Bearer " + localStorage.getItem("token"), "Content-type": "application/json" }
-                    }).then(r => {
-                        console.log(r)
-                        if (r.status != 201) {
-                            //setTimeout(login,0);
-                        }
-                        return r.json()
-                    })
-                        .then(j => {
-                            console.log(j);
-                            setTimeout(_ => { veRespostas(id, coment) }, 0);
-                        })
-                })
-            }
-        })
-    })
-}
-
-// dar likes
-function like(url) {
-    if (!(localStorage.getItem("token") === null)) {
-        let email = localStorage.getItem("email");
-        let json = `{"email": "${localStorage.getItem("email")}", "urlCampanha": "${url}"}`;
-
-        fetch(API + "/auth/like", {
-            'method': "POST",
-            'body': json,
-            'headers': { "Authorization": "Bearer " + localStorage.getItem("token"), "Content-type": "application/json" }
-        })
-            .then(r => r.json())
-            .then(j => {
-                console.log(j);
-            });
-    }
-}
 
 // função que mostra a view de campanha
 function campanha(url) {
@@ -391,6 +240,11 @@ function campanha(url) {
             let $likeButton = document.querySelector(".like");
             $likeButton.addEventListener('click', _ => {
                 setTimeout(_ => { like(url) }, 0)
+            });
+
+            let $unlike = document.querySelector(".removeLike");
+            $unlike.addEventListener('click', _ => {
+                setTimeout(_ => { removeLike(url) }, 0)
             });
 
             // adiciona o comentario
