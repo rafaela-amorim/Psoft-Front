@@ -93,7 +93,6 @@ function veRespostas(id, coment) {
     fetch(API + "/comentario/respostas/" + id, {
         "method": "GET"
     }).then(r => r.json())
-<<<<<<< HEAD
     .then(k => {
         console.log(k)
         let $campanhaComentario = document.querySelector(".campanhaComentarios");
@@ -262,8 +261,6 @@ function campanha(url){
         fetch(API+"/comentario/campanha/"+url,{
             "method":"GET"
         }).then(r => r.json())
-=======
->>>>>>> 9b2a4b330250dc201325262c903f6d65e152184c
         .then(k => {
             console.log(k)
             let $campanhaComentario = document.querySelector(".campanhaComentarios");
@@ -322,8 +319,8 @@ function campanha(url){
                 })
             }
         })
+    })
 }
-
 
 // dar likes
 function like(url) {
@@ -546,7 +543,6 @@ function ordenaPor(ord) {
 function findBySubstr() {
     let substring = document.querySelector(".campBySubstr").value;
     console.log(substring);
-<<<<<<< HEAD
     fetch(API+"/campanha/find/descr/busca=" + substring, 
     {
         'method': "GET",
@@ -555,16 +551,6 @@ function findBySubstr() {
     .then(j => {
         console.log(j);
     });   
-=======
-    fetch(API + "/campanha/find/descr/busca=?" + substring,
-        {
-            'method': "GET",
-        })
-        .then(r => r.json())
-        .then(j => {
-            console.log(j);
-        });
->>>>>>> 9b2a4b330250dc201325262c903f6d65e152184c
 }
 
 // metodo que mostra a view do usuario
