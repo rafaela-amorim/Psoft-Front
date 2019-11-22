@@ -102,6 +102,15 @@ function veRespostas(id, coment) {
             let $a = document.createElement('a')
             let $nome = document.createElement("h4");
 
+            let $button = document.createElement("button");
+
+            $button.innerText = "Apagar Comentario"
+
+            if(localStorage.getItem("email") === k[i].commentOwner){
+                $button.addEventListener('click',_ => {apagaComentario(k[i].id,url)});
+                $div.appendChild($button)
+            }
+
 
             $nome.innerText = k[i].commentOwner + " Disse:"
             $comentario.innerText = k[i].comentario;
@@ -113,6 +122,20 @@ function veRespostas(id, coment) {
             $a.appendChild($nome)
             $div.appendChild($a)
             $div.appendChild($comentario)
+            if(localStorage.getItem("email") === k[i].commentOwner){
+                $button.addEventListener('click',_ => {
+                    fetch(API+"/auth/comentario/deletar/"+k[i].id,{
+                        'method': 'DELETE',
+                        'headers':{'Authorization':"Bearer "+localStorage.getItem("token")}
+                    })
+                    .then(r => {
+                        if(r.status === 200){
+                            setTimeout(_ => {veRespostas(id,coment)},0);
+                        }
+                    })
+                });
+                $div.appendChild($button)
+            }
             $div.appendChild(document.createElement("hr"))
             $campanhaComentario.appendChild($div)
         }
@@ -211,6 +234,18 @@ function dislike(url)  {
 }
 
 
+function apagaComentario(id,url){
+    fetch(API+"/auth/comentario/deletar/"+id,{
+        'method': 'DELETE',
+        'headers':{'Authorization':"Bearer "+localStorage.getItem("token")}
+    })
+    .then(r => {
+        if(r.status === 200){
+            setTimeout(_ => {campanha(url)},0);
+        }
+    })
+}
+
 // função que mostra a view de campanha
 function campanha(url) {
     let $main = document.querySelector("main")
@@ -283,17 +318,28 @@ function campanha(url) {
                         let $a = document.createElement('a')
                         let $nome = document.createElement("h4");
 
+                        let $button = document.createElement("button")
+
+                        $button.innerText = "apagar comentario"
+
 
                         $nome.innerText = k[i].commentOwner + " Disse:"
                         $comentario.innerText = k[i].comentario;
                         $a.href = "#comentario/" + k[i].id;
 
+                        
                         // parte para ver as respostas de um comentario
                         $a.addEventListener('click', _ => { veRespostas(k[i].id, k[i].comentario) })
 
                         $a.appendChild($nome)
                         $div.appendChild($a)
                         $div.appendChild($comentario)
+                        
+
+                        if(localStorage.getItem("email") === k[i].commentOwner){
+                            $div.appendChild($button);
+                            $button.addEventListener('click', _ => {apagaComentario(k[i].id,url)});
+                        }
                         $div.appendChild(document.createElement("hr"))
                         $campanhaComentario.appendChild($div)
                     }
