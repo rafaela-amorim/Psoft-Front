@@ -23,7 +23,6 @@ function save() {
         if(r.status === 401){
             localStorage.removeItem("email")
             localStorage.removeItem("token")
-            setTimeout(login,0);
         }
         return r.json();
     })
@@ -48,7 +47,6 @@ function authenticate() {
         if(r.status === 401){
             localStorage.removeItem("email")
             localStorage.removeItem("token")
-            setTimeout(login,0);
         }
         if (r.status === 200)
             setTimeout(perfilUsuario, 0);
@@ -107,7 +105,6 @@ function veRespostas(id, coment) {
         if(r.status === 401){
             localStorage.removeItem("email")
             localStorage.removeItem("token")
-            setTimeout(login,0);
         }
         return r.json();
     })
@@ -183,7 +180,6 @@ function veRespostas(id, coment) {
                     if(r.status === 401){
                         localStorage.removeItem("email")
                         localStorage.removeItem("token")
-                        setTimeout(login,0);
                     }
                     if(r.status != 201){
                         //setTimeout(login,0);
@@ -214,7 +210,6 @@ function like(url) {
             if(r.status === 401){
                 localStorage.removeItem("email")
                 localStorage.removeItem("token")
-                setTimeout(login,0);
             }
             if (r.status === 409) {
                 fetch(API + "/auth/like/campanha/remove/"+url, {
@@ -248,7 +243,6 @@ function dislike(url)  {
             if(r.status === 401){
                 localStorage.removeItem("email")
                 localStorage.removeItem("token")
-                setTimeout(login,0);
             }
             if (r.status === 409) {
                 fetch(API + "/auth/dislike/campanha/remove/"+url, {
@@ -279,7 +273,6 @@ function apagaComentario(id,url){
         if(r.status === 401){
             localStorage.removeItem("email")
             localStorage.removeItem("token")
-            setTimeout(login,0);
         }
     })
 }
@@ -327,7 +320,6 @@ function campanha(url) {
                         if(r.status === 401){
                             localStorage.removeItem("email")
                             localStorage.removeItem("token")
-                            setTimeout(login,0);
                         }
                         return r.json()
                     }).then(j => {
@@ -356,7 +348,6 @@ function campanha(url) {
                 if(r.status === 401){
                     localStorage.removeItem("email")
                     localStorage.removeItem("token")
-                    setTimeout(login,0);
                 }
                 return r.json()
             }).then(k => {
@@ -441,7 +432,6 @@ function saveCamp() {
         if(r.status === 401){
             localStorage.removeItem("email");
             localStorage.removeItem("token");
-            setTimeout(login,0)
         }
         if (r.status === 201) {
             alert("Campanha cadastrada com sucesso.");
@@ -453,6 +443,56 @@ function saveCamp() {
 
         
     })
+}
+
+// função auxiliar que percorre uma lista de campanhas e exibe um resumo delas em html
+function listaCampanhas(lista, tam, retorno) {
+    for (let i = 0; i < tam; i++) {
+        let $div = document.createElement("div");
+        let $nome = document.createElement("a");
+        $nome.href = "#campanha/" + lista[i].url;
+        let $meta = document.createElement("p");
+        let $likes = document.createElement("p");
+
+        $nome.innerText = "Nome: " + lista[i].nome;
+        $nome.addEventListener('click', _ => { campanha(lista[i].url) });
+        $meta.innerText = "Meta: " + lista[i].meta;
+        $likes.innerText = "Qtd. de Likes: " + lista[i].likes;
+
+        $div.appendChild($nome);
+        $div.appendChild($meta);
+        $div.appendChild($likes);
+        $div.appendChild(document.createElement("hr"));
+        retorno.appendChild($div);
+    }
+}
+
+// encontra campanhas atraves de substring (contidas somente no titulo).
+function findCampanhaBySubstr() {
+    let substring = document.querySelector(".busca").value;
+
+    let $main = document.querySelector("main");
+    let $home = document.querySelector(".home");
+    $main.innerHTML = $home.innerHTML;
+
+    let $campanhasHome = document.querySelector(".campanhasHome");
+    $campanhasHome.innerHTML = "";
+
+
+    if (!(localStorage.getItem("token") === null)) {
+        fetch(API + "/campanha/find/busca=" + substring, {
+            'method': "GET"
+        }).then(r => {
+            if(r.status === 401){
+                localStorage.removeItem("email");
+                localStorage.removeItem("token");
+            }
+            return r.json();
+        })
+        .then(j => {
+            setTimeout(_ => { listaCampanhas(j, Math.min(j.length,5), $campanhasHome) }, 0)
+        });
+    }
 }
 
 // encapsula saveCamp
@@ -467,7 +507,7 @@ function cadastraCampanha() {
         $main.innerHTML = $campanha.innerHTML;
 
         let $cadastra = document.querySelector(".botaoCamp");
-        $cadastra.addEventListener('click', _ => { setTimeout(saveCamp, 0); })
+        $cadastra.addEventListener('click', _ => { setTimeout(saveCamp, 0) });
     }
 }
 
@@ -498,34 +538,16 @@ function ordenaPor(ord) {
         if(r.status === 401){
             localStorage.removeItem("email")
             localStorage.removeItem("token")
-            setTimeout(login,0);
         }
         return r.json()
     }).then(j => {
-            console.log(j)
-            for (let i = 0; i < Math.min(j.length,5); i++) {
-
-                let $div = document.createElement("div");
-                let $nome = document.createElement("a");
-                $nome.href = "#campanha/" + j[i].url;
-                let $meta = document.createElement("p");
-                let $likes = document.createElement("p");
-
-                $nome.innerText = "Nome: " + j[i].nome;
-                $nome.addEventListener('click', _ => { campanha(j[i].url) });
-                $meta.innerText = "Meta: " + j[i].meta;
-                $likes.innerText = "Qtd. de Likes: " + j[i].likes;
-
-                $div.appendChild($nome);
-                $div.appendChild($meta);
-                $div.appendChild($likes);
-                $div.appendChild(document.createElement("hr"));
-                $campanhasHome.appendChild($div);
-            }
-        })
+        console.log(j)
+        listaCampanhas(j, Math.min(j.length,5), $campanhasHome);
+    })
 }
 
-
+// encontra campnhas atraves de uma substring que pode estar contida no 
+// titulo ou na descricao da campanha
 function findBySubstr() {
     let substring = document.querySelector(".campBySubstr").value;
     console.log(substring);
@@ -537,12 +559,18 @@ function findBySubstr() {
         if(r.status === 401){
             localStorage.removeItem("email")
             localStorage.removeItem("token")
-            setTimeout(login,0);
         }
         return r.json()
     })
     .then(j => {
-        console.log(j);
+        let $campanhas = document.querySelector(".campanhasUsuario");
+        $campanhas.innerHTML = "";
+
+        let $title = document.createElement("h3");
+        $title.innerText = "Campanhas encontradas com: " + substring;
+        $campanhas.appendChild($title);
+
+        listaCampanhas(j, j.length, $campanhas);
     });   
 }
 
@@ -558,9 +586,9 @@ function perfilUsuario() {
 
         let $sair = document.querySelector(".sair")
         $sair.addEventListener('click', _ => {
-
-            setTimeout(login, 0);
             localStorage.removeItem("token");
+            localStorage.removeItem("email");
+            setTimeout(login, 0);
         })
 
 
@@ -575,7 +603,6 @@ function perfilUsuario() {
             if(r.status === 401){
                 localStorage.removeItem("email")
                 localStorage.removeItem("token")
-                setTimeout(login,0);
             }
             return r.json()
         }).then(j => {
@@ -600,7 +627,6 @@ function perfilUsuario() {
             if(r.status === 401){
                 localStorage.removeItem("email")
                 localStorage.removeItem("token")
-                setTimeout(login,0);
             }
             return r.json()
         }).then(j => {
@@ -717,11 +743,14 @@ function perfilUsuario() {
     let $login = document.querySelector(".linkLogin");
     $login.addEventListener('click', login);
 
-    let $cadastro = document.querySelector(".linkCadastro")
-    $cadastro.addEventListener('click', viewCadastro)
+    let $cadastro = document.querySelector(".linkCadastro");
+    $cadastro.addEventListener('click', viewCadastro);
 
     let $perfil = document.querySelector(".perfilUsuario");
-    $perfil.addEventListener('click', perfilUsuario)
+    $perfil.addEventListener('click', perfilUsuario);
+
+    let $buscaCampanha = document.querySelector(".botaoBusca");
+    $buscaCampanha.addEventListener('click', findCampanhaBySubstr);
 
 
 
