@@ -22,7 +22,19 @@ body {
 header {
     grid-area: cab;
     border: 1px green solid;
+    margin: 0;
+    padding: 0;
+    height: min-content;
+    grid-gap: 0;
+}
 
+figure {
+    margin: 0;
+    padding: 0;
+    height: min-content;
+    grid-gap: 0;
+    width:100%;
+    background: #490E62;
 }
 
 main {
@@ -79,9 +91,9 @@ main {
     align-self: center;
     width: 100%;
     padding: 8px;
-    border: 1px solid #000;
+    border: 1px solid;
     border-radius: 5px;
-    background-color: #333;
+    background-color: rgb(89, 62, 116);
     color: #fff;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -102,12 +114,19 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    /* background-color: rgb(63, 45, 82); */
+    background: #490E62;
     width: 100%;
 }
 
 li {
     float: left;
+}
+
+div a {
+    color: #957DAD;
+    text-decoration: none;
+    font-weight: bold;
 }
   
 li a {
