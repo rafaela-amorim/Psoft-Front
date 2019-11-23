@@ -1,4 +1,5 @@
-let API = "http://localhost:8080/v1/api"
+//let API = "http://localhost:8080/v1/api"
+let API = "https://projsoftajude.herokuapp.com/v1/api"
 
 
 //função que cadastra um usuario
@@ -20,10 +21,10 @@ function save() {
             alert("usuario cadastrado com sucesso!")
             setTimeout(login, 0);
         }
-        if(r.status === 401){
-            localStorage.removeItem("email")
-            localStorage.removeItem("token")
+        else{
+            alert("usuario não foi cadastrado, email já existente")
         }
+        
         return r.json();
     })
         .then(j => {
