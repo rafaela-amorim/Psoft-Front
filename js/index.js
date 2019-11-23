@@ -118,6 +118,7 @@ function veRespostas(id, coment) {
             let $nome = document.createElement("h4");
 
             let $button = document.createElement("button");
+            $button.classList.add("save")
 
             $button.innerText = "Apagar Comentario"
 
@@ -156,7 +157,9 @@ function veRespostas(id, coment) {
         }
         if(localStorage.getItem("token") != null){
             let $input = document.createElement("input");
+            $input.classList.add("input")
             let $button = document.createElement("button");
+            $button.classList.add("save")
             $button.innerText = "Responder Comentario";
 
 
@@ -277,6 +280,106 @@ function apagaComentario(id,url){
     })
 }
 
+
+function alteraCampanha(url){
+    document.querySelector("main").innerHTML = document.querySelector(".alteraCampanha").innerHTML;
+
+
+    let $botaoEncerraCampanha = document.querySelector(".encerrarCampanha");
+
+    $botaoEncerraCampanha.addEventListener('click', _ => {
+        fetch(API+"/auth/campanha/encerrar/"+url,{
+            'method': 'PUT',
+            'headers':{"Authorization": "Bearer "+localStorage.getItem('token'),"Content-type":"application/json"}
+        }).then(r => {
+            if(r.status === 200){
+                alert("a campanha foi encerrada");
+                setTimeout(_ => {campanha(url)},0);
+            }
+            if(r.status === 401){
+                localStorage.removeItem("email");
+                localStorage.removeItem("token");
+            }
+            return r.json()
+        })
+    })
+
+    let $botaoAlteraDealine = document.querySelector(".alteraDeadlineBotao");
+
+    $botaoAlteraDealine.addEventListener('click',_ => {
+
+        let data = document.querySelector('.alteraDeadline').value
+
+        console.log(data)
+
+        fetch(API + "/auth/campanha/deadline/" + url, {
+            'method':'PUT',
+            'body': `{"data": "${data}"}`,
+            'headers':{"Authorization": "Bearer "+localStorage.getItem('token'),"Content-type":"application/json"}
+        }).then(r => {
+            if(r.status === 200){
+                alert("deadline alterado com sucesso")
+                setTimeout(_ => {campanha(url)},0)
+            }
+            if(r.status === 401){
+                localStorage.removeItem("email");
+                localStorage.removeItem("token");
+            }
+        })
+    })
+
+
+    let $botaoAlteraMeta = document.querySelector(".alteraMetaBotao");
+
+    
+
+    $botaoAlteraMeta.addEventListener('click', _ => {
+
+        let meta = document.querySelector(".alteraMeta").value
+
+        console.log(meta)
+
+        fetch(API + "/auth/campanha/meta/" + url, {
+            'method':'PUT',
+            'body': `{"meta": ${meta}}`,
+            'headers':{"Authorization": "Bearer "+localStorage.getItem('token'),"Content-type":"application/json"}
+        }).then(r => {
+            if(r.status === 200){
+                alert("meta alterada com sucesso")
+                setTimeout(_ => {campanha(url)},0)
+            }
+            if(r.status === 401){
+                localStorage.removeItem("email");
+                localStorage.removeItem("token");
+            }
+        })
+    })
+
+    let $botaoAlteraDescricao = document.querySelector(".alteraDescricaoBotao");
+    
+    $botaoAlteraDescricao.addEventListener('click',_ => {
+
+        let desc = document.querySelector(".alteraDescricao").value;
+
+        fetch(API+'/auth/campanha/descricao/'+url,{
+            'method':'PUT',
+            'body': `{"descricao": "${desc}"}`,
+            'headers':{"Authorization": "Bearer "+localStorage.getItem('token'),"Content-type":"application/json"}
+        }).then(r => {
+            if(r.status === 200){
+                alert("descricao alterada com sucesso")
+                setTimeout(_ => {campanha(url)},0)
+            }
+            if(r.status === 401){
+                localStorage.removeItem("email");
+                localStorage.removeItem("token");
+            }
+        })
+
+    })
+
+}
+
 // função que mostra a view de campanha
 function campanha(url) {
     let $main = document.querySelector("main")
@@ -295,12 +398,23 @@ function campanha(url) {
             document.querySelector(".campanhaDoacoes").innerText = "Doacoes: " + j.doacoes;
             document.querySelector(".campanhaLikes").innerText = "Likes: " + j.likes;
             document.querySelector(".campanhaDislikes").innerText = "Dislikes: " + j.dislikes;
+            document.querySelector(".campanhaDono").innerText = "Dono: " + j.dono.email;
 
-            console.log("a")
+            let $infoCampanha = document.querySelector(".infoCampanha");
+
+            //console.log("a")
             if (!(localStorage.getItem("token") === null)) {
-                let $infoCampanha = document.querySelector(".infoCampanha");
+
+
+
+                
                 let $input = document.createElement("input");
+                $input.classList.add("input")
                 let $button = document.createElement("button");
+                $button.classList.add("save")
+
+                $button.classList.add("save")
+                $input.classList.add("input")
 
                 console.log("a")
 
@@ -326,20 +440,37 @@ function campanha(url) {
                             setTimeout(_ => { campanha(url) }, 0);
                     })
                 })
+
+
+
+                // chama função que dá ou remove um like
+                let $likeButton = document.querySelector(".like");
+                $likeButton.addEventListener('click', _ => {
+                    setTimeout(_ => { like(url) }, 0)
+                });
+
+                // chama função que dá ou remove um dislike
+                let $dislike = document.querySelector(".dislike");
+                $dislike.addEventListener('click', _ => {
+                    console.log(url);
+                    setTimeout(_ => {dislike(url)}, 0)
+                });
+
+                $likeButton.classList.add("save")
+                $dislike.classList.add("save")
             }
 
-            // chama função que dá ou remove um like
-            let $likeButton = document.querySelector(".like");
-            $likeButton.addEventListener('click', _ => {
-                setTimeout(_ => { like(url) }, 0)
-            });
+            if(!(localStorage.getItem("token") === null) && localStorage.getItem("email") === j.dono.email){
+                let $altera = document.createElement("button");
+                $altera.innerText = "Alterar informações da campanha"
 
-            // chama função que dá ou remove um dislike
-            let $dislike = document.querySelector(".dislike");
-            $dislike.addEventListener('click', _ => {
-                console.log(url);
-                setTimeout(_ => {dislike(url)}, 0)
-            });
+                $altera.addEventListener('click',_ => {alteraCampanha(url)})
+
+                $altera.classList.add("save")
+
+                $infoCampanha.appendChild($altera);
+            }
+
 
             // adiciona o comentario
             fetch(API + "/comentario/campanha/" + url, {
@@ -360,6 +491,8 @@ function campanha(url) {
                         let $nome = document.createElement("h4");
 
                         let $button = document.createElement("button")
+
+                        $button.classList.add("save")
 
                         $button.innerText = "apagar comentario"
 
@@ -386,7 +519,9 @@ function campanha(url) {
                     }
                     if (localStorage.getItem("token") != null) {
                         let $input = document.createElement("input");
+                        $input.classList.add("input")
                         let $button = document.createElement("button");
+                        $button.classList.add("save")
                         $button.innerText = "Salvar Comentario";
                         $campanhaComentario.appendChild($input);
                         $campanhaComentario.appendChild($button);

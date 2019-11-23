@@ -94,8 +94,8 @@
                 <p class="senhaUsuario"></p>
                 <p class="cartaoDeCreditoUsuario"></p>
 
-                <button class="sair">Logout</button>
-                <button class="cadastrarCampanha">Cadastrar Campanha</button>
+                <button class="save sair">Logout</button>
+                <button class="save cadastrarCampanha">Cadastrar Campanha</button>
 
                 <input class="input campBySubstr" type="text" placeholder="Busque uma campanha">
                 <button class="save pesquisar">Pesquisar</button>
@@ -125,9 +125,11 @@
                     <p class = "campanhaDoacoes">d</p>
                     <p class = "campanhaLikes"></p>
                     <p class = "campanhaDislikes"></p>
+                    <p class = "campanhaDono"></p>
 
                     <button class="like">Like</button>
                     <button class="dislike">Dislike</button>
+                    
                 </div>
 
             <div class="campanhaComentarios">
@@ -155,6 +157,35 @@
 
             <button class="save botaoCamp">Cadastrar</button>
 
+        </div>
+    </template>
+
+    <template class = "alteraCampanha">
+        <div class = "alteraCampanhaGrid">
+            <div class = "informacoes">
+                <p>Encerrar Campanha</p>
+                <button class = "save encerrarCampanha">Encerrar Campanha</button>
+
+                <hr>
+
+                <p>Alterar Deadline</p>
+                <input class = "input alteraDeadline" type="date">
+                <button class = "save alteraDeadlineBotao">Salvar novo deadline</button>
+
+                <hr>
+
+                <p>Alterar Meta</p>
+                <input class = "input alteraMeta" type ="text">
+                <button class = "save alteraMetaBotao">Salvar nova meta</button>
+
+                <hr>
+
+                <p>Altera Descricao</p>
+                <input class = "input alteraDescricao" type ="text">
+                <button class = "save alteraDescricaoBotao">Salvar descricao</button>
+                <hr>
+
+            </div>
         </div>
     </template>
 

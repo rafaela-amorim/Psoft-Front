@@ -170,6 +170,7 @@ li a:hover {
 }
 
 .perfilUsuario{
+    padding-right: 50px;
     grid-area: perfil;
 }
 
@@ -192,4 +193,12 @@ li a:hover {
     grid-area: comentarios;
 }
 
+.alteraCampanhaGrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: ". mid .";
+}
 
+.informacoes{
+    grid-area: mid;
+}
