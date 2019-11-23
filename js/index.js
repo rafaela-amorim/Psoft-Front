@@ -49,8 +49,11 @@ function authenticate() {
             localStorage.removeItem("email")
             localStorage.removeItem("token")
         }
-        if (r.status === 200)
+        else if (r.status === 200){
             setTimeout(perfilUsuario, 0);
+        }else{
+            alert("email ou senha incorreto");
+        }
         return r.json();
     })
         .then(j => {
@@ -159,6 +162,7 @@ function veRespostas(id, coment) {
         if(localStorage.getItem("token") != null){
             let $input = document.createElement("input");
             $input.classList.add("input")
+            $input.placeholder = "digite sua resposta"
             let $button = document.createElement("button");
             $button.classList.add("save")
             $button.innerText = "Responder Comentario";
@@ -411,6 +415,7 @@ function campanha(url) {
                 
                 let $input = document.createElement("input");
                 $input.classList.add("input")
+                $input.placeholder = "digite quanto deseja doar"
                 let $button = document.createElement("button");
                 $button.classList.add("save")
 
@@ -442,23 +447,27 @@ function campanha(url) {
                     })
                 })
 
-
-
                 // chama função que dá ou remove um like
-                let $likeButton = document.querySelector(".like");
+                let $likeButton = document.createElement("button");
+                $likeButton.innerText = "Like"
                 $likeButton.addEventListener('click', _ => {
                     setTimeout(_ => { like(url) }, 0)
                 });
 
                 // chama função que dá ou remove um dislike
-                let $dislike = document.querySelector(".dislike");
+                let $dislike = document.createElement("button");
+                $dislike.innerText = "Dislike"
                 $dislike.addEventListener('click', _ => {
                     console.log(url);
                     setTimeout(_ => {dislike(url)}, 0)
                 });
 
+
                 $likeButton.classList.add("save")
                 $dislike.classList.add("save")
+
+                $infoCampanha.appendChild($likeButton);
+                $infoCampanha.appendChild($dislike)
             }
 
             if(!(localStorage.getItem("token") === null) && localStorage.getItem("email") === j.dono.email){
@@ -521,6 +530,7 @@ function campanha(url) {
                     if (localStorage.getItem("token") != null) {
                         let $input = document.createElement("input");
                         $input.classList.add("input")
+                        $input.placeholder = "digite seu comentario"
                         let $button = document.createElement("button");
                         $button.classList.add("save")
                         $button.innerText = "Salvar Comentario";
@@ -887,6 +897,7 @@ function perfilUsuario() {
 
     let $buscaCampanha = document.querySelector(".botaoBusca");
     $buscaCampanha.addEventListener('click', findCampanhaBySubstr);
+
 
 
 
