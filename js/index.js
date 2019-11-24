@@ -75,8 +75,6 @@ function viewCadastro() {
     let $button = document.querySelector(".save")
     $button.addEventListener("click", save)
 
-    console.log("veio aqui?")
-
 }
 
 // função que mostra a tela de login
@@ -93,7 +91,6 @@ function login() {
 
 // função que ve as respostas de um comentario
 function veRespostas(id, coment) {
-    console.log("????????")
     let $campanhaComentario = document.querySelector(".campanhaComentarios");
     $campanhaComentario.innerHTML = '';
 

@@ -12,8 +12,7 @@ body {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr 40px;
     grid-template-areas: "cab"
-                         "corpo"
-                         "pe";
+                         "corpo";
     background-color: white;
     height: 100vh;
     font-family: 'Franklin Gothic Medium', Arial, sans-serif;
@@ -97,10 +96,6 @@ main {
     margin-bottom: 5px;
 }
 
-footer {
-    grid-area: pe;
-}
-
 .logo {
     background-color: #DEE2D9
 }
@@ -112,22 +107,6 @@ ul {
     overflow: hidden;
     background: #490E62;
     width: 100%;
-}
-
-.links {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas: ". pass ." 
-                         ". register .";
-}
-
-.pass {
-    grid-area: pass;
-}
-
-.register {
-    grid-area: register;
 }
 
 li {
