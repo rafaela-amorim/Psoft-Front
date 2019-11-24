@@ -16,12 +16,11 @@ body {
                          "pe";
     background-color: white;
     height: 100vh;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Franklin Gothic Medium', Arial, sans-serif;
 }
 
 header {
     grid-area: cab;
-    border: 1px green solid;
     margin: 0;
     padding: 0;
     height: min-content;
@@ -59,7 +58,6 @@ main {
 */
 
 .loginCadastro{
-    border: 1px solid red;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas: ". meio .";
@@ -101,8 +99,6 @@ main {
 
 footer {
     grid-area: pe;
-    border: 1px blue solid;
-
 }
 
 .logo {
@@ -114,14 +110,30 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    /* background-color: rgb(63, 45, 82); */
     background: #490E62;
     width: 100%;
+}
+
+.links {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: ". pass ." 
+                         ". register .";
+}
+
+.pass {
+    grid-area: pass;
+}
+
+.register {
+    grid-area: register;
 }
 
 li {
     float: left;
 }
+
 
 div a {
     color: #957DAD;
@@ -147,12 +159,15 @@ li a:hover {
 }
 
 .busca {
+    border: 1px solid #222;
     padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 7px;
     width: 80%;
 }
 
 .botaoBusca {
-    padding: 8px;
     position: absolute;
 }
 
