@@ -387,7 +387,7 @@ function campanha(url) {
                             localStorage.removeItem("token");
                         }
                         if (r.status === 404 || isNaN($input.value)) {
-                            alert('Digite uma quantia válida')
+                            alert('Digite uma quantia válida ou verifique se a campanha ainda está ativa')
                         }
                         return r.json();
                     })
