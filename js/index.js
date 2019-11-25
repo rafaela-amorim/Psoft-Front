@@ -252,21 +252,24 @@ function alteraCampanha(url) {
 
     let $botaoEncerraCampanha = document.querySelector(".encerrarCampanha");
     $botaoEncerraCampanha.addEventListener('click', _ => {
-        fetch(API + "/auth/campanha/encerrar/" + url, {
-            'method': 'PUT',
-            'headers': { "Authorization": "Bearer " + localStorage.getItem('token'), "Content-type": "application/json" }
-        })
-        .then(r => {
-            if (r.status === 200) {
-                alert("A campanha foi encerrada");
-                setTimeout(_ => {campanha(url)}, 0);
-            }
-            if (r.status === 401) {
-                localStorage.removeItem("email");
-                localStorage.removeItem("token");
-            }
-            return r.json();
-        })
+        let conf = confirm("Tem certeza de que deseja encerrar a campanha?");
+        if (conf == true) {
+            fetch(API + "/auth/campanha/encerrar/" + url, {
+                'method': 'PUT',
+                'headers': { "Authorization": "Bearer " + localStorage.getItem('token'), "Content-type": "application/json" }
+            })
+            .then(r => {
+                if (r.status === 200) {
+                    alert("A campanha foi encerrada");
+                    setTimeout(_ => {campanha(url)}, 0);
+                }
+                if (r.status === 401) {
+                    localStorage.removeItem("email");
+                    localStorage.removeItem("token");
+                }
+                return r.json();
+            })
+        }
     })
 
     let $botaoAlteraDealine = document.querySelector(".alteraDeadlineBotao");
@@ -349,8 +352,8 @@ function campanha(url) {
             document.querySelector(".campanhaDataLimite").innerText = "Data Limite: " + j.dataLimite.substring(0, 10);
             document.querySelector(".campanhaStatus").innerText = "Status: " + j.status;
             document.querySelector(".campanhaUrl").innerText = "URL: " + j.url;
-            document.querySelector(".campanhaMeta").innerText = "Meta (R$): " + j.meta;
-            document.querySelector(".campanhaDoacoes").innerText = "Doações: " + j.doacoes;
+            document.querySelector(".campanhaMeta").innerText = "Meta: R$ " + j.meta;
+            document.querySelector(".campanhaDoacoes").innerText = "Doações: R$ " + j.doacoes;
             document.querySelector(".campanhaLikes").innerText = "Likes: " + j.likes;
             document.querySelector(".campanhaDislikes").innerText = "Dislikes: " + j.dislikes;
             document.querySelector(".campanhaDono").innerText = "Dono: " + j.dono.email;
@@ -364,11 +367,6 @@ function campanha(url) {
                 $input.placeholder = "Digite o valor que deseja doar (em R$)";
                 let $button = document.createElement("button");
                 $button.classList.add("save");
-
-                $button.classList.add("save");
-                $input.classList.add("input");
-
-                console.log("a");
 
                 $button.innerText = "Fazer doação";
 
@@ -387,6 +385,9 @@ function campanha(url) {
                         if (r.status === 401) {
                             localStorage.removeItem("email");
                             localStorage.removeItem("token");
+                        }
+                        if (r.status === 404 || isNaN($input.value)) {
+                            alert('Digite uma quantia válida')
                         }
                         return r.json();
                     })
@@ -537,7 +538,7 @@ function listaCampanhas(lista, tam, retorno) {
 
         $nome.innerText = "Nome: " + lista[i].nome;
         $nome.addEventListener('click', _ => { campanha(lista[i].url) });
-        $meta.innerText = "Meta (R$): " + lista[i].meta;
+        $meta.innerText = "Meta: R$ " + lista[i].meta;
         $likes.innerText = "Qtd. de Likes: " + lista[i].likes;
 
         $div.appendChild($nome);
@@ -563,7 +564,8 @@ function findCampanhaBySubstr() {
     if (!(localStorage.getItem("token") === null)) {
         fetch(API + "/campanha/find/busca=" + substring, {
             'method': "GET"
-        }).then(r => {
+        })
+        .then(r => {
             if(r.status === 401){
                 localStorage.removeItem("email");
                 localStorage.removeItem("token");
@@ -571,7 +573,7 @@ function findCampanhaBySubstr() {
             return r.json();
         })
         .then(j => {
-            setTimeout(_ => { listaCampanhas(j, Math.min(j.length,5), $campanhasHome) }, 0)
+            setTimeout(_ => { listaCampanhas(j, Math.min(j.length, 5), $campanhasHome) }, 0)
         });
     }
 }
@@ -740,8 +742,8 @@ function perfilUsuario() {
                 $dataLimite.innerText = "Data Limite: " + lista[i].dataLimite.substring(0, 10);
                 $status.innerText = "Status: " + lista[i].status;
                 $url.innerText = "URL: " + lista[i].url
-                $meta.innerText = "Meta: " + lista[i].meta;
-                $doacoes.innerText = "Doacoes: " + lista[i].doacoes;
+                $meta.innerText = "Meta: R$ " + lista[i].meta;
+                $doacoes.innerText = "Doações: R$ " + lista[i].doacoes;
 
                 $div.appendChild($nome);
                 $div.appendChild($descricao);
@@ -796,8 +798,8 @@ function perfilUsuario() {
                     $dataLimite.innerText = "Data Limite: " + lista[i].dataLimite.substring(0, 10);
                     $status.innerText = "Status: " + lista[i].status;
                     $url.innerText = "URL: " + lista[i].url
-                    $meta.innerText = "Meta: " + lista[i].meta;
-                    $doacoes.innerText = "Doacoes: " + lista[i].doacoes;
+                    $meta.innerText = "Meta: R$ " + lista[i].meta;
+                    $doacoes.innerText = "Doações: R$ " + lista[i].doacoes;
 
                     $div.appendChild($nome)
                     $div.appendChild($descricao)

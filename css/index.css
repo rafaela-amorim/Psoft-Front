@@ -43,6 +43,7 @@ main {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas: ". meio .";
+    font-size: 20px;
 }
 
 .contem {
@@ -53,7 +54,7 @@ main {
     align-self: end;
     justify-self: center;
     border-radius: 5px;
-    border: 1px solid #222;
+    border: 1px solid #333;
     padding: 8px;
     width: 100%;
     box-sizing: border-box;
@@ -174,10 +175,16 @@ li a:hover {
 
 .infoCampanha {
     grid-area: infos;
+    padding: 20px;
 }
 
 .campanhaComentarios {
     grid-area: comentarios;
+    padding: 20px;
+}
+
+.campanhaComentarios p {
+    padding-left: 20px;
 }
 
 .alteraCampanhaGrid {
@@ -188,4 +195,16 @@ li a:hover {
 
 .informacoes {
     grid-area: mid;
+}
+
+.campanhasHome p {
+    padding-left: 20px;
+}
+
+.campanhasUsuario p {
+    padding-left: 20px;
+}
+
+.select {
+    height: 30px;
 }
