@@ -140,7 +140,7 @@ li a:hover {
 .selectOrd {
     -webkit-appearance: none;
     -moz-appearance: none;
-    background: url(http://www.webcis.com.br/images/imagens-noticias/select/ico-seta-appearance.gif) no-repeat #eeeeee;
+    /*background: url(http://www.webcis.com.br/images/imagens-noticias/select/ico-seta-appearance.gif) no-repeat #eeeeee;*/
     background-position: 218px center;
     width: 250px;
     height: 30px;
