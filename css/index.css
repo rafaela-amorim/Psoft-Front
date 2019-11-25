@@ -39,33 +39,15 @@ main {
     padding: 20px;
 }
 
-/*
-main {
-    grid-area: corpo;
-    padding: 16px;
-    border: 1px red solid;
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto;
-    height: min-content;
-    grid-template-areas:    "text input"; 
-    align-items: center;
-    font-size: 90%;
-    grid-gap: 8px;
-    align-self: center;
-}
-*/
-
-.loginCadastro{
+.loginCadastro {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas: ". meio .";
 }
 
-.contem{
+.contem {
     grid-area: meio;
 }
-
 
 .input {
     align-self: end;
@@ -96,10 +78,6 @@ main {
     margin-bottom: 5px;
 }
 
-.logo {
-    background-color: #DEE2D9
-}
-
 ul {
     list-style-type: none;
     margin: 0;
@@ -113,11 +91,14 @@ li {
     float: left;
 }
 
-
 div a {
     color: #957DAD;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: bold ;
+}
+
+div a:hover {
+    text-decoration: underline;
 }
   
 li a {
@@ -148,6 +129,7 @@ li a:hover {
 
 .botaoBusca {
     position: absolute;
+    height: 30px;
 }
 
 .selectOrdenacao {
@@ -167,51 +149,43 @@ li a:hover {
     display: none;
 }
 
-
-
-.botaoBusca {
-    height: 30px;
-}
-
-
 /* O perfil do usuario vem aqui */
 
-.gridPerfilUsuario{
+.gridPerfilUsuario {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-areas: "perfil campanhas";
 }
 
-.perfilUsuario{
+.perfilUsuario {
     padding-right: 50px;
     grid-area: perfil;
 }
 
-.campanhasUsuario{
+.campanhasUsuario {
     grid-area: campanhas;
 }
 
-
-.campanhaGrid{
+.campanhaGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-areas: "infos comentarios"
 }
 
-.infoCampanha{
+.infoCampanha {
     grid-area: infos;
 }
 
-.campanhaComentario{
+.campanhaComentarios {
     grid-area: comentarios;
 }
 
-.alteraCampanhaGrid{
+.alteraCampanhaGrid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas: ". mid .";
 }
 
-.informacoes{
+.informacoes {
     grid-area: mid;
 }
