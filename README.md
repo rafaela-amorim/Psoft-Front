@@ -11,3 +11,13 @@ Projeto desenvolvido na disciplina de projeto de software - 2019.2. Trata-se de 
 ```
   https://youtu.be/anUGGr_G6zE
 ```
+
+### Dos usuários previmente cadastrados
+
+```
+    email: admin@gmail.com
+    senha: admin
+
+    email: admin1@gmail.com
+    senha: admin1
+```
